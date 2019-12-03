@@ -64,12 +64,12 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     public int insert${ClassName}(${ClassName} ${className})
     {
 #foreach ($column in $columns)
-    #if($column.javaField == 'createTime')
-        ${className}.setCreateTime(DateUtils.getNowDate());
-    #end
-    #if($column.javaField == 'updateTime')
-        ${className}.setUpdateTime(DateUtils.getNowDate());
-    #end
+#if($column.javaField == 'createTime')
+    ${className}.setCreateTime(DateUtils.getNowDate());
+#end
+#if($column.javaField == 'updateTime')
+    ${className}.setUpdateTime(DateUtils.getNowDate());
+#end
 #end
         return ${className}Mapper.insert${ClassName}(${className});
     }
