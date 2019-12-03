@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增司机')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-driver-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">司机姓名：</label>
+                <div class="col-sm-8">
+                    <input name="driverName" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">司机手机号：</label>
+                <div class="col-sm-8">
+                    <input name="driverTelephone" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">司机身份证号：</label>
+                <div class="col-sm-8">
+                    <input name="driverIdentityCard" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">司机驾驶证照片：</label>
+                <div class="col-sm-8">
+                    <input name="drivingLicenseImage" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "transport/driver"
+        $("#form-driver-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-driver-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

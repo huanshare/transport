@@ -2,7 +2,7 @@ package ${packageName}.mapper;
 
 import ${packageName}.domain.${ClassName};
 import java.util.List;
-
+import org.apache.ibatis.annotations.Param;
 /**
  * ${functionName}Mapper接口
  * 
@@ -49,7 +49,7 @@ public interface ${ClassName}Mapper
      * @param ${pkColumn.javaField} ${functionName}ID
      * @return 结果
      */
-    public int delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField});
+    public int delete${ClassName}ById(@Param("${pkColumn.javaField}")${pkColumn.javaType} ${pkColumn.javaField},@Param("updateBy")String updateBy);
 
     /**
      * 批量删除${functionName}
@@ -57,5 +57,5 @@ public interface ${ClassName}Mapper
      * @param ${pkColumn.javaField}s 需要删除的数据ID
      * @return 结果
      */
-    public int delete${ClassName}ByIds(String[] ${pkColumn.javaField}s);
+    public int delete${ClassName}ByIds(@Param("${pkColumn.javaField}s")String[] ${pkColumn.javaField}s, @Param("updateBy")String updateBy);
 }

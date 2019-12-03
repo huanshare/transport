@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改司机')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-driver-edit" th:object="${tDriver}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">司机姓名：</label>
+                <div class="col-sm-8">
+                    <input name="driverName" th:field="*{driverName}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">司机手机号：</label>
+                <div class="col-sm-8">
+                    <input name="driverTelephone" th:field="*{driverTelephone}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">司机身份证号：</label>
+                <div class="col-sm-8">
+                    <input name="driverIdentityCard" th:field="*{driverIdentityCard}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">司机驾驶证照片：</label>
+                <div class="col-sm-8">
+                    <input name="drivingLicenseImage" th:field="*{drivingLicenseImage}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "transport/driver";
+        $("#form-driver-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-driver-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

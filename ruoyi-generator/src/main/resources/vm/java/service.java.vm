@@ -52,7 +52,7 @@ public interface I${ClassName}Service
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int delete${ClassName}ByIds(String ids);
+    public int delete${ClassName}ByIds(String ids,String updateBy);
 
     /**
      * 删除${functionName}信息
@@ -60,7 +60,7 @@ public interface I${ClassName}Service
      * @param ${pkColumn.javaField} ${functionName}ID
      * @return 结果
      */
-    public int delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField});
+    public int delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField},String updateBy);
 #if($table.tree)
 
     /**

@@ -64,9 +64,12 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     public int insert${ClassName}(${ClassName} ${className})
     {
 #foreach ($column in $columns)
-#if($column.javaField == 'createTime')
+    #if($column.javaField == 'createTime')
         ${className}.setCreateTime(DateUtils.getNowDate());
-#end
+    #end
+    #if($column.javaField == 'updateTime')
+        ${className}.setUpdateTime(DateUtils.getNowDate());
+    #end
 #end
         return ${className}Mapper.insert${ClassName}(${className});
     }
@@ -95,9 +98,9 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * @return 结果
      */
     @Override
-    public int delete${ClassName}ByIds(String ids)
+    public int delete${ClassName}ByIds(String ids,String updateBy)
     {
-        return ${className}Mapper.delete${ClassName}ByIds(Convert.toStrArray(ids));
+        return ${className}Mapper.delete${ClassName}ByIds(Convert.toStrArray(ids), updateBy);
     }
 
     /**
@@ -107,9 +110,9 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * @return 结果
      */
     @Override
-    public int delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField})
+    public int delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField},String updateBy)
     {
-        return ${className}Mapper.delete${ClassName}ById(${pkColumn.javaField});
+        return ${className}Mapper.delete${ClassName}ById(${pkColumn.javaField},updateBy);
     }
 #if($table.tree)
 

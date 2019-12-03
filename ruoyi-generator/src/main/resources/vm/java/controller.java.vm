@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.core.domain.Ztree;
 #end
-
+import com.ruoyi.framework.util.ShiroUtils;
 /**
  * ${functionName}Controller
  * 
@@ -120,6 +120,8 @@ public class ${ClassName}Controller extends BaseController
     @ResponseBody
     public AjaxResult addSave(${ClassName} ${className})
     {
+        ${className}.setCreateBy(ShiroUtils.getLoginName());
+        ${className}.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(${className}Service.insert${ClassName}(${className}));
     }
 
@@ -143,6 +145,7 @@ public class ${ClassName}Controller extends BaseController
     @ResponseBody
     public AjaxResult editSave(${ClassName} ${className})
     {
+        ${className}.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(${className}Service.update${ClassName}(${className}));
     }
 
@@ -156,7 +159,8 @@ public class ${ClassName}Controller extends BaseController
     @ResponseBody
     public AjaxResult remove(String ids)
     {
-        return toAjax(${className}Service.delete${ClassName}ByIds(ids));
+        String updateBy=ShiroUtils.getLoginName();
+        return toAjax(${className}Service.delete${ClassName}ByIds(ids,updateBy));
     }
 #elseif($table.tree)
     /**
@@ -168,6 +172,7 @@ public class ${ClassName}Controller extends BaseController
     @ResponseBody
     public AjaxResult remove(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
     {
+        ${className}.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(${className}Service.delete${ClassName}ById(${pkColumn.javaField}));
     }
 #end
