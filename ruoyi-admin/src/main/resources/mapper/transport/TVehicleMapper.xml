@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.transport.mapper.TVehicleMapper">
+    
+    <resultMap type="TVehicle" id="TVehicleResult">
+        <result property="id"    column="id"    />
+        <result property="vehicleNumber"    column="vehicle_number"    />
+        <result property="roadTransportNumber"    column="road_transport_number"    />
+        <result property="roadTransportImage"    column="road_transport_image"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTVehicleVo">
+        select id, vehicle_number, road_transport_number, road_transport_image, remark, del_flag, create_by, create_time, update_by, update_time from t_vehicle
+    </sql>
+
+    <select id="selectTVehicleList" parameterType="TVehicle" resultMap="TVehicleResult">
+        <include refid="selectTVehicleVo"/>
+        <where>
+            del_flag=0
+            <if test="vehicleNumber != null  and vehicleNumber != ''"> and vehicle_number = #{vehicleNumber}</if>
+        </where>
+    </select>
+    
+    <select id="selectTVehicleById" parameterType="Long" resultMap="TVehicleResult">
+        <include refid="selectTVehicleVo"/>
+        where id = #{id} and del_flag=0
+    </select>
+        
+    <insert id="insertTVehicle" parameterType="TVehicle">
+        insert into t_vehicle
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="vehicleNumber != null  and vehicleNumber != ''">vehicle_number,</if>
+            <if test="roadTransportNumber != null  and roadTransportNumber != ''">road_transport_number,</if>
+            <if test="roadTransportImage != null  and roadTransportImage != ''">road_transport_image,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="vehicleNumber != null  and vehicleNumber != ''">#{vehicleNumber},</if>
+            <if test="roadTransportNumber != null  and roadTransportNumber != ''">#{roadTransportNumber},</if>
+            <if test="roadTransportImage != null  and roadTransportImage != ''">#{roadTransportImage},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTVehicle" parameterType="TVehicle">
+        update t_vehicle
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vehicleNumber != null  and vehicleNumber != ''">vehicle_number = #{vehicleNumber},</if>
+            <if test="roadTransportNumber != null  and roadTransportNumber != ''">road_transport_number = #{roadTransportNumber},</if>
+            <if test="roadTransportImage != null  and roadTransportImage != ''">road_transport_image = #{roadTransportImage},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTVehicleById">
+        update t_vehicle
+        SET del_flag=2 and update_by=#{updateBy}
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteTVehicleByIds">
+        update t_vehicle
+        SET del_flag=2 and update_by=#{updateBy}
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

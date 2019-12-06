@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.transport.mapper.TOrderMapper">
+    
+    <resultMap type="TOrder" id="TOrderResult">
+        <result property="id"    column="id"    />
+        <result property="orderCode"    column="order_code"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userTelephone"    column="user_telephone"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="startArea"    column="start_area"    />
+        <result property="endArea"    column="end_area"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="billStatus"    column="bill_status"    />
+        <result property="payableStatus"    column="payable_status"    />
+        <result property="expectExpense"    column="expect_expense"    />
+        <result property="expectStartTime"    column="expect_start_time"    />
+        <result property="expectArrivalTime"    column="expect_arrival_time"    />
+        <result property="actualExpense"    column="actual_expense"    />
+        <result property="actualStartTime"    column="actual_start_time"    />
+        <result property="actualArrivalTime"    column="actual_arrival_time"    />
+        <result property="hignSpeedExpense"    column="hign_speed_expense"    />
+        <result property="parkingExpense"    column="parking_expense"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTOrderVo">
+        select id, order_code, user_name, user_telephone, company_name, start_area, end_area, order_status, bill_status, payable_status, expect_expense, expect_start_time, expect_arrival_time, actual_expense, actual_start_time, actual_arrival_time, hign_speed_expense, parking_expense, remark, del_flag, create_by, create_time, update_by, update_time from t_order
+    </sql>
+
+    <select id="selectTOrderList" parameterType="TOrder" resultMap="TOrderResult">
+        <include refid="selectTOrderVo"/>
+        <where>
+            del_flag=0
+            <if test="orderCode != null  and orderCode != ''"> and order_code = #{orderCode}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="userTelephone != null  and userTelephone != ''"> and user_telephone = #{userTelephone}</if>
+            <if test="companyName != null  and companyName != ''"> and company_name like concat('%', #{companyName}, '%')</if>
+            <if test="startArea != null  and startArea != ''"> and start_area like concat('%', #{startArea}, '%')</if>
+            <if test="endArea != null  and endArea != ''"> and end_area like concat('%', #{endArea}, '%')</if>
+            <if test="orderStatus != null "> and order_status = #{orderStatus}</if>
+            <if test="billStatus != null "> and bill_status = #{billStatus}</if>
+            <if test="payableStatus != null "> and payable_status = #{payableStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectTOrderById" parameterType="Long" resultMap="TOrderResult">
+        <include refid="selectTOrderVo"/>
+        where id = #{id} and del_flag=0
+    </select>
+        
+    <insert id="insertTOrder" parameterType="TOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into t_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderCode != null  and orderCode != ''">order_code,</if>
+            <if test="userName != null  and userName != ''">user_name,</if>
+            <if test="userTelephone != null  and userTelephone != ''">user_telephone,</if>
+            <if test="companyName != null  and companyName != ''">company_name,</if>
+            <if test="startArea != null  and startArea != ''">start_area,</if>
+            <if test="endArea != null  and endArea != ''">end_area,</if>
+            <if test="orderStatus != null ">order_status,</if>
+            <if test="billStatus != null ">bill_status,</if>
+            <if test="payableStatus != null ">payable_status,</if>
+            <if test="expectExpense != null ">expect_expense,</if>
+            <if test="expectStartTime != null ">expect_start_time,</if>
+            <if test="expectArrivalTime != null ">expect_arrival_time,</if>
+            <if test="actualExpense != null ">actual_expense,</if>
+            <if test="actualStartTime != null ">actual_start_time,</if>
+            <if test="actualArrivalTime != null ">actual_arrival_time,</if>
+            <if test="hignSpeedExpense != null ">hign_speed_expense,</if>
+            <if test="parkingExpense != null ">parking_expense,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderCode != null  and orderCode != ''">#{orderCode},</if>
+            <if test="userName != null  and userName != ''">#{userName},</if>
+            <if test="userTelephone != null  and userTelephone != ''">#{userTelephone},</if>
+            <if test="companyName != null  and companyName != ''">#{companyName},</if>
+            <if test="startArea != null  and startArea != ''">#{startArea},</if>
+            <if test="endArea != null  and endArea != ''">#{endArea},</if>
+            <if test="orderStatus != null ">#{orderStatus},</if>
+            <if test="billStatus != null ">#{billStatus},</if>
+            <if test="payableStatus != null ">#{payableStatus},</if>
+            <if test="expectExpense != null ">#{expectExpense},</if>
+            <if test="expectStartTime != null ">#{expectStartTime},</if>
+            <if test="expectArrivalTime != null ">#{expectArrivalTime},</if>
+            <if test="actualExpense != null ">#{actualExpense},</if>
+            <if test="actualStartTime != null ">#{actualStartTime},</if>
+            <if test="actualArrivalTime != null ">#{actualArrivalTime},</if>
+            <if test="hignSpeedExpense != null ">#{hignSpeedExpense},</if>
+            <if test="parkingExpense != null ">#{parkingExpense},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTOrder" parameterType="TOrder">
+        update t_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderCode != null  and orderCode != ''">order_code = #{orderCode},</if>
+            <if test="userName != null  and userName != ''">user_name = #{userName},</if>
+            <if test="userTelephone != null  and userTelephone != ''">user_telephone = #{userTelephone},</if>
+            <if test="companyName != null  and companyName != ''">company_name = #{companyName},</if>
+            <if test="startArea != null  and startArea != ''">start_area = #{startArea},</if>
+            <if test="endArea != null  and endArea != ''">end_area = #{endArea},</if>
+            <if test="orderStatus != null ">order_status = #{orderStatus},</if>
+            <if test="billStatus != null ">bill_status = #{billStatus},</if>
+            <if test="payableStatus != null ">payable_status = #{payableStatus},</if>
+            <if test="expectExpense != null ">expect_expense = #{expectExpense},</if>
+            <if test="expectStartTime != null ">expect_start_time = #{expectStartTime},</if>
+            <if test="expectArrivalTime != null ">expect_arrival_time = #{expectArrivalTime},</if>
+            <if test="actualExpense != null ">actual_expense = #{actualExpense},</if>
+            <if test="actualStartTime != null ">actual_start_time = #{actualStartTime},</if>
+            <if test="actualArrivalTime != null ">actual_arrival_time = #{actualArrivalTime},</if>
+            <if test="hignSpeedExpense != null ">hign_speed_expense = #{hignSpeedExpense},</if>
+            <if test="parkingExpense != null ">parking_expense = #{parkingExpense},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTOrderById">
+        update t_order
+        SET del_flag=2 and update_by=#{updateBy}
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteTOrderByIds">
+        update t_order
+        SET del_flag=2 and update_by=#{updateBy}
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

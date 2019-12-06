@@ -35,21 +35,8 @@ public class BaseEntity implements Serializable
     /** 备注 */
     private String remark;
 
-    /**
-     * 是否删除：1删除0未删
-     */
-    private Integer deleted;
-
     /** 请求参数 */
     private Map<String, Object> params;
-
-    public Integer getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Integer deleted) {
-        this.deleted = deleted;
-    }
 
     public String getSearchValue()
     {
