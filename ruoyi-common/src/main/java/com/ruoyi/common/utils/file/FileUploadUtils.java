@@ -1,7 +1,10 @@
 package com.ruoyi.common.utils.file;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.config.Global;
@@ -91,7 +94,7 @@ public class FileUploadUtils
      *
      * @param baseDir 相对应用的基目录
      * @param file 上传的文件
-     * @param extension 上传文件类型
+     * @param allowedExtension 上传文件类型
      * @return 返回上传成功的文件名
      * @throws FileSizeLimitExceededException 如果超出最大大小
      * @throws FileNameLengthLimitExceededException 文件名太长
@@ -113,7 +116,10 @@ public class FileUploadUtils
         String fileName = extractFilename(file);
 
         File desc = getAbsoluteFile(baseDir, fileName);
-        file.transferTo(desc);
+        //file.transferTo(desc);
+        OutputStream out=new FileOutputStream(desc);
+        out.write(file.getBytes());
+        out.close();
         String pathFileName = getPathFileName(baseDir, fileName);
         return pathFileName;
     }

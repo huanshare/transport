@@ -28,7 +28,10 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">司机驾驶证照片：</label>
                 <div class="col-sm-8">
-                    <input name="drivingLicenseImage" th:field="*{drivingLicenseImage}" class="form-control" type="text">
+                    <!--<input name="drivingLicenseImage"  class="form-control" type="text">-->
+                    <input class="form-control file" type="file" multiple data-min-file-count="1" data-theme="fas"  >
+                    <input id="drivingLicenseImage" name="drivingLicenseImage" style="display: none" th:field="*{drivingLicenseImage}">
+                    <img th:src="*{drivingLicenseImage}"alt="" id="image_show" style="width:50px;height: 50px;"/>
                 </div>
             </div>
         </form>
@@ -38,6 +41,30 @@
         var prefix = ctx + "transport/driver";
         $("#form-driver-edit").validate({
             focusCleanup: true
+        });
+
+        $("#form-driver-edit .file").change(function(){
+            var formData = new FormData();
+            formData.append("file",$("#form-driver-edit .file")[0].files[0]);
+            $.ajax({
+                url:ctx + 'common/upload', /*接口域名地址*/
+                type:'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                error : function(request) {
+                    $.modal.alertError("系统错误");
+                },
+                success : function(data) {
+                    if(data["code"]=="0"){
+                        $("#form-driver-edit #drivingLicenseImage").val(data["fileName"]);
+                        $("#image_show").attr("src",data["url"]);
+                        $("#image_show").show();
+                    }else{
+                        $.modal.alertError("上传失败");
+                    }
+                }
+            })
         });
 
         function submitHandler() {

@@ -74,7 +74,10 @@
                 },
                 {
                     field : 'roadTransportImage', 
-                    title : '车辆运输行驶证'
+                    title : '车辆运输行驶证',
+                    formatter: function(value, row, index) {
+                        return "<a href='"+value+"' target='_blank'>查看图片</a>";
+                    }
                 },
                 {
                     field : 'remark', 

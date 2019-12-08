@@ -22,7 +22,9 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">车辆运输行驶证：</label>
                 <div class="col-sm-8">
-                    <input name="roadTransportImage" th:field="*{roadTransportImage}" class="form-control" type="text">
+                    <input class="form-control file" type="file" multiple data-min-file-count="1" data-theme="fas"  />
+                    <input id="roadTransportImage" name="roadTransportImage" style="display: none" th:field="*{roadTransportImage}">
+                    <img th:src="*{roadTransportImage}" alt="" id="image_show" style="width:50px;height: 50px;"/>
                 </div>
             </div>
         </form>
@@ -32,6 +34,29 @@
         var prefix = ctx + "transport/vehicle";
         $("#form-vehicle-edit").validate({
             focusCleanup: true
+        });
+        $("#form-vehicle-edit .file").change(function(){
+            var formData = new FormData();
+            formData.append("file",$(this)[0].files[0]);
+            $.ajax({
+                url:ctx + 'common/upload', /*接口域名地址*/
+                type:'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                error : function(request) {
+                    $.modal.alertError("系统错误");
+                },
+                success : function(data) {
+                    if(data["code"]=="0"){
+                        $("#form-vehicle-edit #roadTransportImage").val(data["fileName"]);
+                        $("#image_show").attr("src",data["url"]);
+                        $("#image_show").show();
+                    }else{
+                        $.modal.alertError("上传失败");
+                    }
+                }
+            })
         });
 
         function submitHandler() {

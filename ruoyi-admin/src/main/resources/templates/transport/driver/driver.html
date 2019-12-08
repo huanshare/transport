@@ -90,7 +90,10 @@
                 },
                 {
                     field : 'drivingLicenseImage', 
-                    title : '司机驾驶证照片'
+                    title : '司机驾驶证照片',
+                    formatter: function(value, row, index) {
+                        return "<a href='"+value+"' target='_blank'>查看图片</a>";
+                    }
                 },
                 {
                     field : 'remark', 
