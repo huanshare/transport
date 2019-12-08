@@ -1,19 +1,23 @@
 package com.ruoyi.transport.mapper;
 
 import com.ruoyi.transport.domain.TOrder;
+
 import java.util.List;
+
+import com.ruoyi.transport.model.OrderInfoRequestModel;
+import com.ruoyi.transport.model.OrderDetailModel;
 import org.apache.ibatis.annotations.Param;
+
 /**
  * 订单Mapper接口
- * 
+ *
  * @author huanshare
  * @date 2019-12-06
  */
-public interface TOrderMapper 
-{
+public interface TOrderMapper {
     /**
      * 查询订单
-     * 
+     *
      * @param id 订单ID
      * @return 订单
      */
@@ -21,15 +25,32 @@ public interface TOrderMapper
 
     /**
      * 查询订单列表
-     * 
+     *
      * @param tOrder 订单
      * @return 订单集合
      */
     public List<TOrder> selectTOrderList(TOrder tOrder);
 
     /**
+     * 查询订单列表
+     *
+     * @param tOrder 订单
+     * @return 订单集合
+     */
+    public List<OrderDetailModel> selectOrderInfoList(OrderInfoRequestModel tOrder);
+
+
+    /**
+     * 查询订单详情
+     *
+     * @param id id
+     * @return 订单集合
+     */
+    public OrderDetailModel selectOrderInfoById(Long id);
+
+    /**
      * 新增订单
-     * 
+     *
      * @param tOrder 订单
      * @return 结果
      */
@@ -37,7 +58,7 @@ public interface TOrderMapper
 
     /**
      * 修改订单
-     * 
+     *
      * @param tOrder 订单
      * @return 结果
      */
@@ -45,7 +66,7 @@ public interface TOrderMapper
 
     /**
      * 删除订单
-     * 
+     *
      * @param id 订单ID
      * @return 结果
      */
@@ -53,7 +74,7 @@ public interface TOrderMapper
 
     /**
      * 批量删除订单
-     * 
+     *
      * @param ids 需要删除的数据ID
      * @return 结果
      */

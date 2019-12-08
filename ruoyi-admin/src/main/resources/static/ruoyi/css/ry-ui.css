@@ -640,7 +640,7 @@ label {
 
 .select-list li p{
 	float: left;
-	width: 65px;
+	width: 80px;
 	margin: 5px 5px 5px 0px;
 	text-align:right;
 }
@@ -1007,4 +1007,10 @@ label {
 ::-webkit-scrollbar-thumb {
 	border-radius: 6px;
 	background-color: #999;
+}
+
+.tr-copy td{
+	padding:3px;
+	border: 1px solid #e5e6e7;
+	border-radius: 1px;;
 }

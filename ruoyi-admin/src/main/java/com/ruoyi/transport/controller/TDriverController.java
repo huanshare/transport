@@ -23,14 +23,13 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 司机Controller
- * 
+ *
  * @author ruoyi
  * @date 2019-12-03
  */
 @Controller
 @RequestMapping("/transport/driver")
-public class TDriverController extends BaseController
-{
+public class TDriverController extends BaseController {
     private String prefix = "transport/driver";
 
     @Autowired
@@ -38,8 +37,7 @@ public class TDriverController extends BaseController
 
     @RequiresPermissions("transport:driver:view")
     @GetMapping()
-    public String driver()
-    {
+    public String driver() {
         return prefix + "/driver";
     }
 
@@ -49,8 +47,7 @@ public class TDriverController extends BaseController
     @RequiresPermissions("transport:driver:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(TDriver tDriver)
-    {
+    public TableDataInfo list(TDriver tDriver) {
         startPage();
         List<TDriver> list = tDriverService.selectTDriverList(tDriver);
         return getDataTable(list);
@@ -63,8 +60,7 @@ public class TDriverController extends BaseController
     @Log(title = "司机", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(TDriver tDriver)
-    {
+    public AjaxResult export(TDriver tDriver) {
         List<TDriver> list = tDriverService.selectTDriverList(tDriver);
         ExcelUtil<TDriver> util = new ExcelUtil<TDriver>(TDriver.class);
         return util.exportExcel(list, "driver");
@@ -74,8 +70,7 @@ public class TDriverController extends BaseController
      * 新增司机
      */
     @GetMapping("/add")
-    public String add()
-    {
+    public String add() {
         return prefix + "/add";
     }
 
@@ -86,8 +81,7 @@ public class TDriverController extends BaseController
     @Log(title = "司机", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(TDriver tDriver)
-    {
+    public AjaxResult addSave(TDriver tDriver) {
         tDriver.setCreateBy(ShiroUtils.getLoginName());
         tDriver.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(tDriverService.insertTDriver(tDriver));
@@ -97,8 +91,7 @@ public class TDriverController extends BaseController
      * 修改司机
      */
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap)
-    {
+    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
         TDriver tDriver = tDriverService.selectTDriverById(id);
         mmap.put("tDriver", tDriver);
         return prefix + "/edit";
@@ -111,8 +104,7 @@ public class TDriverController extends BaseController
     @Log(title = "司机", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(TDriver tDriver)
-    {
+    public AjaxResult editSave(TDriver tDriver) {
         tDriver.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(tDriverService.updateTDriver(tDriver));
     }
@@ -122,11 +114,10 @@ public class TDriverController extends BaseController
      */
     @RequiresPermissions("transport:driver:remove")
     @Log(title = "司机", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
-        String updateBy=ShiroUtils.getLoginName();
-        return toAjax(tDriverService.deleteTDriverByIds(ids,updateBy));
+    public AjaxResult remove(String ids) {
+        String updateBy = ShiroUtils.getLoginName();
+        return toAjax(tDriverService.deleteTDriverByIds(ids, updateBy));
     }
 }

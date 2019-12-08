@@ -1,6 +1,7 @@
 package com.ruoyi.transport.controller;
 
 import java.util.List;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,16 +20,16 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.framework.util.ShiroUtils;
+
 /**
  * 车辆Controller
- * 
+ *
  * @author huanshare
  * @date 2019-12-06
  */
 @Controller
 @RequestMapping("/transport/vehicle")
-public class TVehicleController extends BaseController
-{
+public class TVehicleController extends BaseController {
     private String prefix = "transport/vehicle";
 
     @Autowired
@@ -36,8 +37,7 @@ public class TVehicleController extends BaseController
 
     @RequiresPermissions("transport:vehicle:view")
     @GetMapping()
-    public String vehicle()
-    {
+    public String vehicle() {
         return prefix + "/vehicle";
     }
 
@@ -47,8 +47,7 @@ public class TVehicleController extends BaseController
     @RequiresPermissions("transport:vehicle:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(TVehicle tVehicle)
-    {
+    public TableDataInfo list(TVehicle tVehicle) {
         startPage();
         List<TVehicle> list = tVehicleService.selectTVehicleList(tVehicle);
         return getDataTable(list);
@@ -61,8 +60,7 @@ public class TVehicleController extends BaseController
     @Log(title = "车辆", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(TVehicle tVehicle)
-    {
+    public AjaxResult export(TVehicle tVehicle) {
         List<TVehicle> list = tVehicleService.selectTVehicleList(tVehicle);
         ExcelUtil<TVehicle> util = new ExcelUtil<TVehicle>(TVehicle.class);
         return util.exportExcel(list, "vehicle");
@@ -72,8 +70,7 @@ public class TVehicleController extends BaseController
      * 新增车辆
      */
     @GetMapping("/add")
-    public String add()
-    {
+    public String add() {
         return prefix + "/add";
     }
 
@@ -84,8 +81,7 @@ public class TVehicleController extends BaseController
     @Log(title = "车辆", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(TVehicle tVehicle)
-    {
+    public AjaxResult addSave(TVehicle tVehicle) {
         tVehicle.setCreateBy(ShiroUtils.getLoginName());
         tVehicle.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(tVehicleService.insertTVehicle(tVehicle));
@@ -95,8 +91,7 @@ public class TVehicleController extends BaseController
      * 修改车辆
      */
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap)
-    {
+    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
         TVehicle tVehicle = tVehicleService.selectTVehicleById(id);
         mmap.put("tVehicle", tVehicle);
         return prefix + "/edit";
@@ -109,8 +104,7 @@ public class TVehicleController extends BaseController
     @Log(title = "车辆", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(TVehicle tVehicle)
-    {
+    public AjaxResult editSave(TVehicle tVehicle) {
         tVehicle.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(tVehicleService.updateTVehicle(tVehicle));
     }
@@ -120,11 +114,10 @@ public class TVehicleController extends BaseController
      */
     @RequiresPermissions("transport:vehicle:remove")
     @Log(title = "车辆", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
-        String updateBy=ShiroUtils.getLoginName();
-        return toAjax(tVehicleService.deleteTVehicleByIds(ids,updateBy));
+    public AjaxResult remove(String ids) {
+        String updateBy = ShiroUtils.getLoginName();
+        return toAjax(tVehicleService.deleteTVehicleByIds(ids, updateBy));
     }
 }

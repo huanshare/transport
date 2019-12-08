@@ -1,19 +1,19 @@
 package com.ruoyi.transport.service;
 
 import com.ruoyi.transport.domain.TOrderVehicleDriver;
+
 import java.util.List;
 
 /**
  * 订单车辆司机Service接口
- * 
+ *
  * @author huanshare
  * @date 2019-12-06
  */
-public interface ITOrderVehicleDriverService 
-{
+public interface ITOrderVehicleDriverService {
     /**
      * 查询订单车辆司机
-     * 
+     *
      * @param id 订单车辆司机ID
      * @return 订单车辆司机
      */
@@ -21,7 +21,7 @@ public interface ITOrderVehicleDriverService
 
     /**
      * 查询订单车辆司机列表
-     * 
+     *
      * @param tOrderVehicleDriver 订单车辆司机
      * @return 订单车辆司机集合
      */
@@ -29,7 +29,7 @@ public interface ITOrderVehicleDriverService
 
     /**
      * 新增订单车辆司机
-     * 
+     *
      * @param tOrderVehicleDriver 订单车辆司机
      * @return 结果
      */
@@ -37,7 +37,7 @@ public interface ITOrderVehicleDriverService
 
     /**
      * 修改订单车辆司机
-     * 
+     *
      * @param tOrderVehicleDriver 订单车辆司机
      * @return 结果
      */
@@ -45,7 +45,7 @@ public interface ITOrderVehicleDriverService
 
     /**
      * 批量删除订单车辆司机
-     * 
+     *
      * @param ids 需要删除的数据ID
      * @return 结果
      */
@@ -53,7 +53,7 @@ public interface ITOrderVehicleDriverService
 
     /**
      * 删除订单车辆司机信息
-     * 
+     *
      * @param id 订单车辆司机ID
      * @return 结果
      */

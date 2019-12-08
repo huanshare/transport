@@ -106,6 +106,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </delete>
 
+    <delete id="deleteTOrderVehicleDriverByOrderId">
+        update t_order_vehicle_driver
+        SET del_flag=2 and update_by=#{updateBy}
+        where order_id = #{orderId}
+    </delete>
+
     <delete id="deleteTOrderVehicleDriverByIds">
         update t_order_vehicle_driver
         SET del_flag=2 and update_by=#{updateBy}

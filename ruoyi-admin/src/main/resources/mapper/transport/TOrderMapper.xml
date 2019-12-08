@@ -55,6 +55,138 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTOrderVo"/>
         where id = #{id} and del_flag=0
     </select>
+
+    <resultMap id="orderInfoMap" type="com.ruoyi.transport.model.OrderDetailModel">
+        <result property="id"    column="id"    />
+        <result property="orderCode"    column="order_code"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userTelephone"    column="user_telephone"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="startArea"    column="start_area"    />
+        <result property="endArea"    column="end_area"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="billStatus"    column="bill_status"    />
+        <result property="payableStatus"    column="payable_status"    />
+        <result property="expectExpense"    column="expect_expense"    />
+        <result property="expectStartTime"    column="expect_start_time"    />
+        <result property="expectArrivalTime"    column="expect_arrival_time"    />
+        <result property="actualExpense"    column="actual_expense"    />
+        <result property="actualStartTime"    column="actual_start_time"    />
+        <result property="actualArrivalTime"    column="actual_arrival_time"    />
+        <result property="hignSpeedExpense"    column="hign_speed_expense"    />
+        <result property="parkingExpense"    column="parking_expense"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <collection javaType="ArrayList" ofType="com.ruoyi.transport.domain.TOrderVehicleDriver" property="orderVehicleDriverList">
+            <result property="orderVehicleDriverId"    column="id"    />
+            <result property="orderId"    column="order_id"    />
+            <result property="dispatcher"    column="dispatcher"    />
+            <result property="outsideCar"    column="outside_car"    />
+            <result property="vehicleNumber"    column="vehicle_number"    />
+            <result property="driverName"    column="driver_name"    />
+            <result property="driverTelephone"    column="driver_telephone"    />
+            <result property="driverIdentityCard"    column="driver_identity_card"    />
+        </collection>
+    </resultMap>
+    <select id="selectOrderInfoList" parameterType="com.ruoyi.transport.model.OrderInfoRequestModel" resultMap="orderInfoMap">
+      SELECT
+            a.id,
+            a.order_code,
+            a.user_name,
+            a.user_telephone,
+            a.company_name,
+            a.start_area,
+            a.end_area,
+            a.order_status,
+            a.bill_status,
+            a.payable_status,
+            a.expect_expense,
+            a.expect_start_time,
+            a.expect_arrival_time,
+            a.actual_expense,
+            a.actual_start_time,
+            a.actual_arrival_time,
+            a.hign_speed_expense,
+            a.parking_expense,
+            a.remark,
+            a.del_flag,
+            a.create_by,
+            a.create_time,
+            a.update_by,
+            a.update_time,
+            b.id AS orderVehicleDriverId,
+            b.dispatcher,
+            b.outside_car,
+            b.vehicle_number,
+            b.driver_name,
+            b.driver_telephone,
+            b.driver_identity_card
+        FROM
+            t_order a
+        LEFT JOIN t_order_vehicle_driver b ON a.id = b.order_id
+        AND b.del_flag = 0
+        where a.del_flag = 0
+        <if test="orderCode != null  and orderCode != ''"> and a.order_code = #{orderCode}</if>
+        <if test="userName != null  and userName != ''"> and a.user_name like concat('%', #{userName}, '%')</if>
+        <if test="userTelephone != null  and userTelephone != ''"> and a.user_telephone = #{userTelephone}</if>
+        <if test="companyName != null  and companyName != ''"> and a.company_name like concat('%', #{companyName}, '%')</if>
+        <if test="startArea != null  and startArea != ''"> and a.start_area like concat('%', #{startArea}, '%')</if>
+        <if test="endArea != null  and endArea != ''"> and a.end_area like concat('%', #{endArea}, '%')</if>
+        <if test="orderStatus != null "> and a.order_status = #{orderStatus}</if>
+        <if test="billStatus != null "> and a.bill_status = #{billStatus}</if>
+        <if test="payableStatus != null "> and a.payable_status = #{payableStatus}</if>
+        <if test="dispatcher != null  and dispatcher != ''"> and b.dispatcher = #{dispatcher}</if>
+        <if test="outsideCar != null  and outsideCar != ''"> and b.outside_car = #{outsideCar}</if>
+        <if test="vehicleNumber != null  and vehicleNumber != ''"> and b.vehicle_number = #{vehicleNumber}</if>
+        <if test="driverName != null  and driverName != ''"> and b.driver_name like concat('%', #{driverName}, '%')</if>
+        <if test="driverTelephone != null  and driverTelephone != ''"> and b.driver_telephone = #{driverTelephone}</if>
+        <if test="driverIdentityCard != null  and driverIdentityCard != ''"> and b.driver_identity_card = #{driverIdentityCard}</if>
+    </select>
+
+    <select id="selectOrderInfoById" parameterType="Long"  resultMap="orderInfoMap">
+        SELECT
+        a.id,
+        a.order_code,
+        a.user_name,
+        a.user_telephone,
+        a.company_name,
+        a.start_area,
+        a.end_area,
+        a.order_status,
+        a.bill_status,
+        a.payable_status,
+        a.expect_expense,
+        a.expect_start_time,
+        a.expect_arrival_time,
+        a.actual_expense,
+        a.actual_start_time,
+        a.actual_arrival_time,
+        a.hign_speed_expense,
+        a.parking_expense,
+        a.remark,
+        a.del_flag,
+        a.create_by,
+        a.create_time,
+        a.update_by,
+        a.update_time,
+        b.id AS orderVehicleDriverId,
+        b.dispatcher,
+        b.outside_car,
+        b.vehicle_number,
+        b.driver_name,
+        b.driver_telephone,
+        b.driver_identity_card
+        FROM
+        t_order a
+        LEFT JOIN t_order_vehicle_driver b ON a.id = b.order_id
+        AND b.del_flag = 0
+        where a.del_flag = 0
+        and id=#{id}
+    </select>
         
     <insert id="insertTOrder" parameterType="TOrder" useGeneratedKeys="true" keyProperty="id">
         insert into t_order
