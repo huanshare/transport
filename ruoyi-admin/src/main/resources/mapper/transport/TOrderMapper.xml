@@ -185,7 +185,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         LEFT JOIN t_order_vehicle_driver b ON a.id = b.order_id
         AND b.del_flag = 0
         where a.del_flag = 0
-        and id=#{id}
+        and a.id=#{id}
     </select>
         
     <insert id="insertTOrder" parameterType="TOrder" useGeneratedKeys="true" keyProperty="id">

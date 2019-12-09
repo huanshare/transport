@@ -1037,6 +1037,27 @@ var table = {
         	    };
         	    $.ajax(config)
             },
+            // 保存信息 刷新表格
+            savePost: function(url, data, callback) {
+                var config = {
+                    url: url,
+                    type: "post",
+                    dataType: "json",
+                    contentType: "application/json;charset-UTF-8",
+                    data: data,
+                    beforeSend: function () {
+                        $.modal.loading("正在处理中，请稍后...");
+                        $.modal.disable();
+                    },
+                    success: function(result) {
+                        if (typeof callback == "function") {
+                            callback(result);
+                        }
+                        $.operate.successCallback(result);
+                    }
+                };
+                $.ajax(config)
+            },
             // 保存信息 弹出提示框
             saveModal: function(url, data, callback) {
             	var config = {
