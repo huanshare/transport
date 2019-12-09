@@ -154,6 +154,20 @@
                     }
                 },
                 {
+                    field : 'orderVehicleDriverList',
+                    title : '车辆信息',
+                    formatter: function(value, row, index) {
+                        var orderVehicleDriverHtml="";
+                        if(null!=row.orderVehicleDriverList&&row.orderVehicleDriverList.length>0){
+                            value.each(function(){
+                                var item=$(this);
+                                orderVehicleDriverHtml+="<aa>司机名称："+item.driverName+"，司机手机号:"+item.driverTelephone+"，车牌号："+item.vehicleNumber+"；</aa>";
+                            });
+                        }
+                        return orderVehicleDriverHtml;
+                    }
+                },
+                {
                     field : 'expectExpense', 
                     title : '预计费用'
                 },

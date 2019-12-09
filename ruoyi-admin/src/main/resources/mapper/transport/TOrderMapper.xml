@@ -82,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <collection javaType="ArrayList" ofType="com.ruoyi.transport.domain.TOrderVehicleDriver" property="orderVehicleDriverList">
-            <result property="orderVehicleDriverId"    column="id"    />
+            <result property="id"    column="orderVehicleDriverId"    />
             <result property="orderId"    column="order_id"    />
             <result property="dispatcher"    column="dispatcher"    />
             <result property="outsideCar"    column="outside_car"    />

@@ -78,8 +78,9 @@ public class TOrderServiceImpl implements ITOrderService {
      * @param orderDetailModel 订单
      * @return 结果
      */
-    @Transactional
+
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int insertTOrder(OrderDetailModel orderDetailModel) {
         orderDetailModel.setCreateTime(DateUtils.getNowDate());
         orderDetailModel.setUpdateTime(DateUtils.getNowDate());
@@ -93,7 +94,7 @@ public class TOrderServiceImpl implements ITOrderService {
         tOrder.setCreateTime(DateUtils.getNowDate());
         tOrder.setUpdateTime(DateUtils.getNowDate());
         tOrderMapper.insertTOrder(tOrder);
-
+        orderDetailModel.setId(tOrder.getId());
         //保存其他信息
         saveOtherInfo(orderDetailModel,false);
 
@@ -109,6 +110,7 @@ public class TOrderServiceImpl implements ITOrderService {
      * @return 结果
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int updateTOrder(OrderDetailModel orderDetailModel) {
         orderDetailModel.setUpdateTime(DateUtils.getNowDate());
         TOrder tOrder= new TOrder();

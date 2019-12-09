@@ -124,6 +124,46 @@
                     <input name="parkingExpense" th:field="*{parkingExpense}" class="form-control" type="text">
                 </div>
             </div>
+            <div class="form-group">
+                <table id="table-OrderVehicleDriver">
+                    <thead class="tr-copy">
+                    <td>司机姓名</td>
+                    <td>司机手机号</td>
+                    <td>司机身份证号</td>
+                    <td>车牌号</td>
+                    <td>调度人</td>
+                    <!--<td>外调车</td>-->
+                    <td>
+                        <button type="button" class="btn btn-outline btn-primary btn-add-orderVehicleDriver">新增</button>
+                    </td>
+                    </thead>
+                    <tbody id="tBody-orderVehicleDriver" th:each="item,iterStat : ${orderVehicleDriverList}">
+                        <tr class="tr-copy">
+                            <td>
+                                <input name="" class="form-control" type="text" placeholder="请输入司机名称"  maxlength="30" required th:field="*{item.driverName}">
+                            </td>
+                            <td>
+                                <input name="" class="form-control" type="text" placeholder="请输入司机手机号"  maxlength="30" required th:field="*{item.driverTelephone}">
+                            </td>
+                            <td>
+                                <input name="" class="form-control" type="text" placeholder="请输入司机身份证号"  maxlength="30" th:field="*{item.driverIdentityCard}">
+                            </td>
+                            <td>
+                                <input name="" class="form-control" type="text" placeholder="请输入车牌号"  maxlength="30" required th:field="*{item.vehicleNumber}">
+                            </td>
+                            <td>
+                                <input name="" class="form-control" type="text" placeholder="请输入调度人"  maxlength="30" th:field="*{item.dispatcher}">
+                            </td>
+                            <!--<td>-->
+                            <!--<input name="" class="form-control" type="text" placeholder="请输入司机名称"  maxlength="30" required th:field="*{item.driverTelephone}">-->
+                            <!--</td>-->
+                            <td>
+                                <button type="button" class="btn btn-outline btn-danger btn-delete-orderVehicleDriver">删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </form>
     </div>
     <th:block th:include="include :: footer" />

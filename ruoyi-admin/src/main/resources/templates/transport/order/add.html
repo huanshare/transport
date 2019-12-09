@@ -143,25 +143,6 @@
     <th:block th:include="include :: datetimepicker-js" />
     <script type="text/javascript">
         var prefix = ctx + "transport/order";
-        /**
-         *	将Form对象转换成为json对象，使用方式	var fo = $("#searchForm").serializeJson();	console.info(fo);
-         */
-        $.fn.serializeJson = function() {
-            var serializeObj = {};
-            var array = this.serializeArray();
-            $(array).each(function() {
-                if (serializeObj[this.name]) {
-                    if ($.isArray(serializeObj[this.name])) {
-                        serializeObj[this.name].push(this.value);
-                    } else {
-                        serializeObj[this.name] = [ serializeObj[this.name], this.value ];
-                    }
-                } else {
-                    serializeObj[this.name] = this.value;
-                }
-            });
-            return serializeObj;
-        };
         $("#form-order-add").validate({
             focusCleanup: true
         });
@@ -179,30 +160,31 @@
                     orderVehicleDriver.dispatcher=$(this).find("input").val();
                     orderVehicleDriverList.push(orderVehicleDriver);
                 });
-                $.operate.save(prefix + "/add",{orderInfo:formData,list:orderVehicleDriverList});
+                formData.orderVehicleDriverList=orderVehicleDriverList;
+                $.operate.save(prefix + "/add",JSON.stringify(formData));
             }
         }
 
         $("input[name='expectStartTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
+            format: "yyyy-mm-dd hh",
+            minView: "day",
             autoclose: true
         });
 
         $("input[name='expectArrivalTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
+            format: "yyyy-mm-dd hh",
+            minView: "day",
             autoclose: true
         });
 
         $("input[name='actualStartTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
+            format: "yyyy-mm-dd hh",
+            minView: "day",
             autoclose: true
         });
 
         $("input[name='actualArrivalTime']").datetimepicker({
-            format: "yyyy-mm-dd",
+            format: "yyyy-mm-dd hh" ,
             minView: "month",
             autoclose: true
         });

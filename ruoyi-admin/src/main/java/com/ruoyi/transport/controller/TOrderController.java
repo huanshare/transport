@@ -79,7 +79,7 @@ public class TOrderController extends BaseController {
     @Log(title = "订单", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(@RequestParam("orderInfo") OrderDetailModel tOrder,@RequestParam("list") List<TOrderVehicleDriver> orderVehicleDriverList) {
+    public AjaxResult addSave(@RequestBody OrderDetailModel tOrder) {
         tOrder.setCreateBy(ShiroUtils.getLoginName());
         tOrder.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(tOrderService.insertTOrder(tOrder));
