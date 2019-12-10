@@ -286,5 +286,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <update id="updateTOrderStatus">
+        update t_order
+        SET
+        update_by=#{updateBy}
+        <if test="orderStatus != null ">order_status = #{orderStatus},</if>
+        <if test="billStatus != null ">bill_status = #{billStatus},</if>
+        <if test="payableStatus != null ">payable_status = #{payableStatus},</if>
+        where id = #{id} and del_flag=0
+    </update>
     
 </mapper>

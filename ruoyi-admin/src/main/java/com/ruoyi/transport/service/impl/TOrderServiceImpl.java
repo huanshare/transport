@@ -1,6 +1,7 @@
 package com.ruoyi.transport.service.impl;
 
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.transport.domain.TDriver;
@@ -207,5 +208,31 @@ public class TOrderServiceImpl implements ITOrderService {
             });
         }
 
+    }
+
+    /**
+     * 修改订单状态
+     * @param id
+     * @param orderStatus 订单状态
+     * @param billStatus  开票状态
+     * @param payableStatus 付款状态
+     * @param updateBy 修改人
+     * @return
+     */
+    @Override
+    public int updateTOrderStatus( Long id, Integer orderStatus, Integer billStatus, Integer payableStatus, String updateBy){
+        TOrder tOrder = tOrderMapper.selectTOrderById(id);
+        if(null==tOrder){
+            throw new BusinessException("修改失败：订单不存在");
+        }
+        if(OrderStatusEnum.TRANSPORT_COMPLETED.getKey()>tOrder.getOrderStatus()){
+            if(null!=billStatus){
+                throw new BusinessException("订单未运输完成，不能修改开票状态");
+            }
+            if(null!=payableStatus){
+                throw new BusinessException("订单未运输完成，不能修改结算状态");
+            }
+        }
+        return tOrderMapper.updateTOrderStatus(id,orderStatus,billStatus,payableStatus,updateBy);
     }
 }

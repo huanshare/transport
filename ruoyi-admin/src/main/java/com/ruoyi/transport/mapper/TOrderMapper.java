@@ -79,4 +79,18 @@ public interface TOrderMapper {
      * @return 结果
      */
     public int deleteTOrderByIds(@Param("ids") String[] ids, @Param("updateBy") String updateBy);
+
+    /**
+     * 修改订单状态
+     *
+     * @param id tOrder
+     * @return 结果
+     */
+    public int updateTOrderStatus(@Param("id") Long id,
+                                  @Param("orderStatus")Integer orderStatus,
+                                  @Param("billStatus")Integer billStatus,
+                                  @Param("payableStatus")Integer payableStatus,
+                                  @Param("updateBy") String updateBy);
+
+
 }

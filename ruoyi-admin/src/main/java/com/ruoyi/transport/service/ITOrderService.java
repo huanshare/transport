@@ -59,4 +59,20 @@ public interface ITOrderService {
      * @return 结果
      */
     public int deleteTOrderById(Long id, String updateBy);
+
+    /**
+     * 修改订单状态
+     * @param id
+     * @param orderStatus 订单状态
+     * @param billStatus  开票状态
+     * @param payableStatus 付款状态
+     * @param updateBy 修改人
+     * @return
+     */
+    public int updateTOrderStatus( Long id,
+                                  Integer orderStatus,
+                                  Integer billStatus,
+                                  Integer payableStatus,
+                                  String updateBy);
+
 }

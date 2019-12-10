@@ -118,4 +118,16 @@ public class TOrderController extends BaseController {
         String updateBy = ShiroUtils.getLoginName();
         return toAjax(tOrderService.deleteTOrderByIds(ids, updateBy));
     }
+
+    /**
+     * 删除订单
+     */
+    @RequiresPermissions("transport:order:edit")
+    @Log(title = "订单", businessType = BusinessType.UPDATE)
+    @PostMapping("/updateTOrderStatus")
+    @ResponseBody
+    public AjaxResult updateTOrderStatus(OrderInfoRequestModel tOrder) {
+        String updateBy = ShiroUtils.getLoginName();
+        return toAjax(tOrderService.updateTOrderStatus(tOrder.getId(),tOrder.getOrderStatus(),tOrder.getBillStatus(),tOrder.getPayableStatus(), updateBy));
+    }
 }
