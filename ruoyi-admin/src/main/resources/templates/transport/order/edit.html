@@ -49,25 +49,23 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">开票状态：</label>
                 <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('bill_status')}">
-                        <input type="radio" th:id="${'billStatus_' + dict.dictCode}" name="billStatus" th:value="${dict.dictValue}" th:field="*{billStatus}">
-                        <label th:for="${'billStatus_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
-                    </div>
+                    <select name="billStatus" class="form-control m-b" th:with="type=${@dict.getType('bill_status')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{billStatus}"></option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">结算状态：</label>
                 <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('payable_status')}">
-                        <input type="radio" th:id="${'payableStatus_' + dict.dictCode}" name="payableStatus" th:value="${dict.dictValue}" th:field="*{payableStatus}">
-                        <label th:for="${'payableStatus_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
-                    </div>
+                    <select name="payableStatus" class="form-control m-b" th:with="type=${@dict.getType('payable_status')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{payableStatus}"></option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">预计费用：</label>
                 <div class="col-sm-8">
-                    <input name="expectExpense" th:field="*{expectExpense}" class="form-control" type="text">
+                    <input name="expectExpense" th:field="*{expectExpense}" class="form-control" type="number">
                 </div>
             </div>
             <div class="form-group">    
@@ -75,7 +73,7 @@
                 <div class="col-sm-8">
                     <div class="input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="expectStartTime" th:value="${#dates.format(tOrder.expectStartTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <input name="expectStartTime" th:value="${#dates.format(tOrder.expectStartTime, 'yyyy-MM-dd hh')}" class="form-control" placeholder="yyyy-MM-dd hh" type="text">
                     </div>
                 </div>
             </div>
@@ -84,14 +82,14 @@
                 <div class="col-sm-8">
                     <div class="input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="expectArrivalTime" th:value="${#dates.format(tOrder.expectArrivalTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <input name="expectArrivalTime" th:value="${#dates.format(tOrder.expectArrivalTime, 'yyyy-MM-dd hh')}" class="form-control" placeholder="yyyy-MM-dd hh" type="text">
                     </div>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">实际费用：</label>
                 <div class="col-sm-8">
-                    <input name="actualExpense" th:field="*{actualExpense}" class="form-control" type="text">
+                    <input name="actualExpense" th:field="*{actualExpense}" class="form-control" type="number">
                 </div>
             </div>
             <div class="form-group">    
@@ -99,7 +97,7 @@
                 <div class="col-sm-8">
                     <div class="input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="actualStartTime" th:value="${#dates.format(tOrder.actualStartTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <input name="actualStartTime" th:value="${#dates.format(tOrder.actualStartTime, 'yyyy-MM-dd hh')}" class="form-control" placeholder="yyyy-MM-dd hh" type="text">
                     </div>
                 </div>
             </div>
@@ -108,20 +106,20 @@
                 <div class="col-sm-8">
                     <div class="input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="actualArrivalTime" th:value="${#dates.format(tOrder.actualArrivalTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <input name="actualArrivalTime" th:value="${#dates.format(tOrder.actualArrivalTime, 'yyyy-MM-dd hh')}" class="form-control" placeholder="yyyy-MM-dd hh" type="text">
                     </div>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">高速费：</label>
                 <div class="col-sm-8">
-                    <input name="hignSpeedExpense" th:field="*{hignSpeedExpense}" class="form-control" type="text">
+                    <input name="hignSpeedExpense" th:field="*{hignSpeedExpense}" class="form-control" type="number">
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">停车费：</label>
                 <div class="col-sm-8">
-                    <input name="parkingExpense" th:field="*{parkingExpense}" class="form-control" type="text">
+                    <input name="parkingExpense" th:field="*{parkingExpense}" class="form-control" type="number">
                 </div>
             </div>
             <div class="form-group">
@@ -137,22 +135,22 @@
                         <button type="button" class="btn btn-outline btn-primary btn-add-orderVehicleDriver">新增</button>
                     </td>
                     </thead>
-                    <tbody id="tBody-orderVehicleDriver" th:each="item,iterStat : ${orderVehicleDriverList}">
-                        <tr class="tr-copy">
+                    <tbody id="tBody-orderVehicleDriver" >
+                        <tr class="tr-copy" th:each="item:*{orderVehicleDriverList}">
                             <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入司机名称"  maxlength="30" required th:field="*{item.driverName}">
+                                <input name="" class="form-control driverName" type="text" placeholder="请输入司机名称"  maxlength="30" required th:value="${item.driverName}">
                             </td>
                             <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入司机手机号"  maxlength="30" required th:field="*{item.driverTelephone}">
+                                <input name="" class="form-control driverTelephone" type="text" placeholder="请输入司机手机号"  maxlength="30" required th:value="${item.driverTelephone}">
                             </td>
                             <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入司机身份证号"  maxlength="30" th:field="*{item.driverIdentityCard}">
+                                <input name="" class="form-control driverIdentityCard" type="text" placeholder="请输入司机身份证号"  maxlength="30" th:value="${item.driverIdentityCard}">
                             </td>
                             <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入车牌号"  maxlength="30" required th:field="*{item.vehicleNumber}">
+                                <input name="" class="form-control vehicleNumber" type="text" placeholder="请输入车牌号"  maxlength="30" required th:value="${item.vehicleNumber}">
                             </td>
                             <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入调度人"  maxlength="30" th:field="*{item.dispatcher}">
+                                <input name="" class="form-control dispatcher" type="text" placeholder="请输入调度人"  maxlength="30" th:value="${item.dispatcher}">
                             </td>
                             <!--<td>-->
                             <!--<input name="" class="form-control" type="text" placeholder="请输入司机名称"  maxlength="30" required th:field="*{item.driverTelephone}">-->
@@ -176,32 +174,118 @@
 
         function submitHandler() {
             if ($.validate.form()) {
-                $.operate.save(prefix + "/edit", $('#form-order-edit').serialize());
+                var formData=$('#form-order-edit').serializeJson();
+                var orderVehicleDriverList=[];
+                if(formData.expectStartTime!=""){
+                    formData.expectStartTime=formData.expectStartTime+":00:00";
+                }
+                if(formData.expectArrivalTime!=""){
+                    formData.expectArrivalTime=formData.expectArrivalTime+":00:00";
+                }
+                if(formData.actualStartTime!=""){
+                    formData.actualStartTime=formData.actualStartTime+":00:00";
+                }
+                if(formData.actualArrivalTime!=""){
+                    formData.actualArrivalTime=formData.actualArrivalTime+":00:00";
+                }
+                $("#table-OrderVehicleDriver tbody tr").each(function(index, value){
+                    var orderVehicleDriver={};
+                    orderVehicleDriver.driverName=$(this).find(".driverName").val();
+                    orderVehicleDriver.driverTelephone=$(this).find(".driverTelephone").val();
+                    orderVehicleDriver.driverIdentityCard=$(this).find(".driverIdentityCard").val();
+                    orderVehicleDriver.vehicleNumber=$(this).find(".vehicleNumber").val();
+                    orderVehicleDriver.dispatcher=$(this).find(".dispatcher").val();
+                    orderVehicleDriverList.push(orderVehicleDriver);
+                });
+                formData.orderVehicleDriverList=orderVehicleDriverList;
+                $.operate.savePost(prefix + "/edit",JSON.stringify(formData));
             }
         }
 
         $("input[name='expectStartTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
+            format: "yyyy-mm-dd hh",
+            minView: "day",
             autoclose: true
+        }).on('changeDate', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var startTime = event.date;
+            $("input[name='expectArrivalTime']").datetimepicker('setStartDate', startTime);
         });
 
         $("input[name='expectArrivalTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
+            format: "yyyy-mm-dd hh",
+            minView: "day",
             autoclose: true
+        }).on('changeDate', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var endTime = event.date;
+            $("input[name='expectStartTime']").datetimepicker('setEndDate', endTime);
         });
 
         $("input[name='actualStartTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
+            format: "yyyy-mm-dd hh",
+            minView: "day",
             autoclose: true
+        }).on('changeDate', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var startTime = event.date;
+            $("input[name='actualArrivalTime']").datetimepicker('setStartDate', startTime);
         });
 
         $("input[name='actualArrivalTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
+            format: "yyyy-mm-dd hh" ,
+            minView: "day",
             autoclose: true
+        }).on('changeDate', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var endTime = event.date;
+            $("input[name='actualStartTime']").datetimepicker('setEndDate', endTime);
+        });
+
+        var $copyHtml="<tr class=\"tr-copy\">\n" +
+            "\t<td>\n" +
+            "\t\t<input name=\"\" class=\"form-control  driverName request_item\" type=\"text\" placeholder=\"请输入司机名称\"  maxlength=\"30\" required>\n" +
+            "\t</td>\n" +
+            "\t<td>\n" +
+            "\t\t<input name=\"\" class=\"form-control  driverTelephone request_item\" type=\"text\" placeholder=\"请输入司机手机号\"  maxlength=\"30\" required>\n" +
+            "\t</td>\n" +
+            "\t<td>\n" +
+            "\t\t<input name=\"\" class=\"form-control driverIdentityCard \" type=\"text\" placeholder=\"请输入司机身份证号\"  maxlength=\"30\" >\n" +
+            "\t</td>\n" +
+            "\t<td>\n" +
+            "\t\t<input name=\"\" class=\"form-control vehicleNumber request_item\" type=\"text\" placeholder=\"请输入车牌号\"  maxlength=\"30\" required>\n" +
+            "\t</td>\n" +
+            "\t<td>\n" +
+            "\t\t<input name=\"\" class=\"form-control dispatcher\" type=\"text\" placeholder=\"请输入调度人\"  maxlength=\"30\" >\n" +
+            "\t</td>\n" +
+                /* "\t<td>\n" +
+                 "\t\t<input name=\"\" class=\"form-control\" type=\"text\" placeholder=\"请输入司机名称\"  maxlength=\"30\" required>\n" +
+                 "\t</td>\n" +*/
+            "\t<td>\n" +
+            "\t\t<button type=\"button\" class=\"btn btn-outline btn-danger btn-delete-orderVehicleDriver\">删除</button>\n" +
+            "\t</td>\n" +
+            "</tr>";
+
+        $(".btn-add-orderVehicleDriver").click(function(){
+            $("#table-OrderVehicleDriver").append($copyHtml);
+            $(".btn-delete-orderVehicleDriver").click(function(){
+                if($("#table-OrderVehicleDriver tbody tr").length<=1){
+                    $.modal.alertError("至少保留一条信息");
+                    return false;
+                }
+                $(this).parent().parent().remove();
+            });
+        });
+        $(".btn-delete-orderVehicleDriver").click(function(){
+            if($("#table-OrderVehicleDriver tbody tr").length<=1){
+                $.modal.alertError("至少保留一条信息");
+                return false;
+            }
+            $(this).parent().parent().remove();
         });
     </script>
 </body>

@@ -83,6 +83,28 @@
             </div>
         </div>
     </div>
+     <!-- 模态框（Modal） -->
+     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                         &times;
+                     </button>
+                     <h4 class="modal-title" id="myModalLabel">
+                         车辆信息
+                     </h4>
+                 </div>
+                 <div class="modal-body">
+
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                     </button>
+                 </div>
+             </div><!-- /.modal-content -->
+         </div><!-- /.modal -->
+     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('transport:order:edit')}]];
@@ -100,6 +122,8 @@
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 modalName: "订单",
+                fixedColumns: true,
+                fixedNumber: 7,
                 columns: [{
                     checkbox: true
                 },
@@ -157,13 +181,15 @@
                     field : 'orderVehicleDriverList',
                     title : '车辆信息',
                     formatter: function(value, row, index) {
-                        var orderVehicleDriverHtml = "";
+                        var orderVehicleDriverHtml="";
                         if (null != row.orderVehicleDriverList && row.orderVehicleDriverList.length > 0) {
                             $.each(row.orderVehicleDriverList, function (i,item) {
-                                orderVehicleDriverHtml += "<aa>司机名称：" + item.driverName + "，司机手机号:" + item.driverTelephone + "，车牌号：" + item.vehicleNumber + "；</aa>";
+                                orderVehicleDriverHtml += "<aa>* 司机名称：" + item.driverName + "，司机手机号：" + item.driverTelephone + "，车牌号：" + item.vehicleNumber + "；</aa><br/>";
                             });
-                            return orderVehicleDriverHtml;
+                            return "<a onclick=\"showOrderVehicleDriver('"+orderVehicleDriverHtml+"')\">查看车辆</a>";
                         }
+                        return "暂无信息";
+
                     }
                 },
                 {
@@ -211,6 +237,18 @@
             };
             $.table.init(options);
         });
+
+        function showOrderVehicleDriver(detail){
+            layer.open({
+                type: 1,
+                closeBtn: 1, //不显示关闭按钮
+                anim: 2,
+                shadeClose: true, //开启遮罩关闭
+                fix: false,
+                content:"<div style='padding:20px;line-height:30px;'>"+detail+"</div>"
+            });
+            //layer.msg(detail, { icon: $.modal.icon(1), shift: 5 });
+        }
     </script>
 </body>
 </html>

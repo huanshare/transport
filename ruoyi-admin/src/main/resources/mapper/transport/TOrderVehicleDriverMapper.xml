@@ -37,6 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="driverTelephone != null  and driverTelephone != ''"> and driver_telephone = #{driverTelephone}</if>
             <if test="driverIdentityCard != null  and driverIdentityCard != ''"> and driver_identity_card = #{driverIdentityCard}</if>
         </where>
+        order by id desc
     </select>
     
     <select id="selectTOrderVehicleDriverById" parameterType="Long" resultMap="TOrderVehicleDriverResult">

@@ -118,11 +118,6 @@ public class TOrderServiceImpl implements ITOrderService {
         BeanUtils.copyProperties(orderDetailModel,tOrder);
         tOrderMapper.updateTOrder(tOrder);
 
-        //保存订单车辆司机表
-        TOrderVehicleDriver orderVehicleDriver=new TOrderVehicleDriver();
-        BeanUtils.copyProperties(orderDetailModel,orderVehicleDriver);
-        tOrderVehicleDriverMapper.updateTOrderVehicleDriver(orderVehicleDriver);
-
         //保存其他信息
         saveOtherInfo(orderDetailModel,true);
         return 1;

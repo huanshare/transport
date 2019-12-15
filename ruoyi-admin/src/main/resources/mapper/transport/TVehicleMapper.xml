@@ -27,6 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             del_flag=0
             <if test="vehicleNumber != null  and vehicleNumber != ''"> and vehicle_number = #{vehicleNumber}</if>
         </where>
+        order by id desc
     </select>
     
     <select id="selectTVehicleById" parameterType="Long" resultMap="TVehicleResult">

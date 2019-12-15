@@ -49,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="billStatus != null "> and bill_status = #{billStatus}</if>
             <if test="payableStatus != null "> and payable_status = #{payableStatus}</if>
         </where>
+        order by id desc
     </select>
     
     <select id="selectTOrderById" parameterType="Long" resultMap="TOrderResult">
@@ -145,6 +146,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="driverName != null  and driverName != ''"> and b.driver_name like concat('%', #{driverName}, '%')</if>
         <if test="driverTelephone != null  and driverTelephone != ''"> and b.driver_telephone = #{driverTelephone}</if>
         <if test="driverIdentityCard != null  and driverIdentityCard != ''"> and b.driver_identity_card = #{driverIdentityCard}</if>
+        order by a.id desc
     </select>
 
     <select id="selectOrderInfoById" parameterType="Long"  resultMap="orderInfoMap">

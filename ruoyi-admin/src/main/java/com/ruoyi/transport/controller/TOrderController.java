@@ -102,7 +102,7 @@ public class TOrderController extends BaseController {
     @Log(title = "订单", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(OrderDetailModel tOrder) {
+    public AjaxResult editSave(@RequestBody OrderDetailModel tOrder) {
         tOrder.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(tOrderService.updateTOrder(tOrder));
     }
