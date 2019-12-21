@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.transport.mapper.TOrderTimeMapper">
+    
+    <resultMap type="TOrderTime" id="TOrderTimeResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="orderCode"    column="order_code"    />
+        <result property="orderStartTime"    column="order_start_time"    />
+        <result property="orderArriveTime"    column="order_arrive_time"    />
+        <result property="orderBillTime"    column="order_bill_time"    />
+        <result property="orderPayTime"    column="order_pay_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTOrderTimeVo">
+        select id, order_id, order_code, order_start_time, order_arrive_time, order_bill_time, order_pay_time, del_flag, create_by, create_time, update_by, update_time from t_order_time
+    </sql>
+
+    <select id="selectTOrderTimeList" parameterType="TOrderTime" resultMap="TOrderTimeResult">
+        <include refid="selectTOrderTimeVo"/>
+        <where>
+            del_flag=0
+            <if test="params.beginOrderStartTime != null and params.beginOrderStartTime != '' and params.endOrderStartTime != null and params.endOrderStartTime != ''"> and order_start_time between #{params.beginOrderStartTime} and #{params.endOrderStartTime}</if>
+            <if test="params.beginOrderArriveTime != null and params.beginOrderArriveTime != '' and params.endOrderArriveTime != null and params.endOrderArriveTime != ''"> and order_arrive_time between #{params.beginOrderArriveTime} and #{params.endOrderArriveTime}</if>
+            <if test="params.beginOrderBillTime != null and params.beginOrderBillTime != '' and params.endOrderBillTime != null and params.endOrderBillTime != ''"> and order_bill_time between #{params.beginOrderBillTime} and #{params.endOrderBillTime}</if>
+            <if test="params.beginOrderPayTime != null and params.beginOrderPayTime != '' and params.endOrderPayTime != null and params.endOrderPayTime != ''"> and order_pay_time between #{params.beginOrderPayTime} and #{params.endOrderPayTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectTOrderTimeById" parameterType="Long" resultMap="TOrderTimeResult">
+        <include refid="selectTOrderTimeVo"/>
+        where id = #{id} and del_flag=0
+    </select>
+
+    <select id="selectTOrderTimeByOrderId" parameterType="Long" resultMap="TOrderTimeResult">
+        <include refid="selectTOrderTimeVo"/>
+        where order_id = #{orderId} and del_flag=0
+    </select>
+        
+    <insert id="insertTOrderTime" parameterType="TOrderTime" useGeneratedKeys="true" keyProperty="id">
+        insert into t_order_time
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null ">order_id,</if>
+            <if test="orderCode != null  and orderCode != ''">order_code,</if>
+            <if test="orderStartTime != null ">order_start_time,</if>
+            <if test="orderArriveTime != null ">order_arrive_time,</if>
+            <if test="orderBillTime != null ">order_bill_time,</if>
+            <if test="orderPayTime != null ">order_pay_time,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null ">#{orderId},</if>
+            <if test="orderCode != null  and orderCode != ''">#{orderCode},</if>
+            <if test="orderStartTime != null ">#{orderStartTime},</if>
+            <if test="orderArriveTime != null ">#{orderArriveTime},</if>
+            <if test="orderBillTime != null ">#{orderBillTime},</if>
+            <if test="orderPayTime != null ">#{orderPayTime},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTOrderTime" parameterType="TOrderTime">
+        update t_order_time
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null ">order_id = #{orderId},</if>
+            <if test="orderCode != null  and orderCode != ''">order_code = #{orderCode},</if>
+            <if test="orderStartTime != null ">order_start_time = #{orderStartTime},</if>
+            <if test="orderArriveTime != null ">order_arrive_time = #{orderArriveTime},</if>
+            <if test="orderBillTime != null ">order_bill_time = #{orderBillTime},</if>
+            <if test="orderPayTime != null ">order_pay_time = #{orderPayTime},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTOrderTimeById">
+        update t_order_time
+        SET del_flag=2 and update_by=#{updateBy}
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteTOrderTimeByIds">
+        update t_order_time
+        SET del_flag=2 and update_by=#{updateBy}
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

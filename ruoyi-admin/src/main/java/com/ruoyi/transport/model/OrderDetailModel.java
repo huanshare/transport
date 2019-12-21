@@ -1,10 +1,9 @@
 package com.ruoyi.transport.model;
 
-import com.alibaba.fastjson.JSON;
 import com.ruoyi.transport.domain.TOrder;
 import com.ruoyi.transport.domain.TOrderVehicleDriver;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,6 +13,19 @@ public class OrderDetailModel extends TOrder {
 
     private List<TOrderVehicleDriver> orderVehicleDriverList;
 
+
+    /** 订单开始时间 */
+    private Date orderStartTime;
+    
+    /** 订单到达时间 */
+    private Date orderArriveTime;
+
+    /** 订单开票时间 */
+    private Date orderBillTime;
+
+    /** 订单付款时间 */
+    private Date orderPayTime;
+
     public List<TOrderVehicleDriver> getOrderVehicleDriverList() {
         return orderVehicleDriverList;
     }
@@ -22,24 +34,35 @@ public class OrderDetailModel extends TOrder {
         this.orderVehicleDriverList = orderVehicleDriverList;
     }
 
-    public static void main(String[] args) {
-        OrderDetailModel tOrder=new OrderDetailModel();
-        tOrder.setOrderCode("123");
-        tOrder.setCompanyName("234");
-        tOrder.setUserName("23456");
-        tOrder.setUserTelephone("234234345");
+    public Date getOrderStartTime() {
+        return orderStartTime;
+    }
 
-        List<TOrderVehicleDriver> orderVehicleDriverList=new ArrayList<>();
-        for(int i=0;i<2;i++){
-            TOrderVehicleDriver item=new TOrderVehicleDriver();
-            item.setDispatcher("w54"+i);
-            item.setDriverIdentityCard("w35r4"+i);
-            item.setVehicleNumber("354434"+i);
-            item.setDriverTelephone("w45"+i);
-            item.setDriverName("2435"+i);
-            orderVehicleDriverList.add(item);
-        }
-        tOrder.setOrderVehicleDriverList(orderVehicleDriverList);
-        System.out.println(JSON.toJSONString(tOrder));
+    public void setOrderStartTime(Date orderStartTime) {
+        this.orderStartTime = orderStartTime;
+    }
+
+    public Date getOrderArriveTime() {
+        return orderArriveTime;
+    }
+
+    public void setOrderArriveTime(Date orderArriveTime) {
+        this.orderArriveTime = orderArriveTime;
+    }
+
+    public Date getOrderBillTime() {
+        return orderBillTime;
+    }
+
+    public void setOrderBillTime(Date orderBillTime) {
+        this.orderBillTime = orderBillTime;
+    }
+
+    public Date getOrderPayTime() {
+        return orderPayTime;
+    }
+
+    public void setOrderPayTime(Date orderPayTime) {
+        this.orderPayTime = orderPayTime;
     }
 }

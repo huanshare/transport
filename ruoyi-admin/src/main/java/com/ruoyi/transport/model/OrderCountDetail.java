@@ -6,49 +6,19 @@ import java.math.BigDecimal;
  * Created by huans on 2019/12/15.
  */
 public class OrderCountDetail {
-    //本月
-    private Integer unStartCount;
-    private Integer inTransitCount;
-    private Integer transportCompletedCount;
 
+    private Integer unStartCount = 0;
+    private Integer inTransitCount = 0;
+    private Integer transportCompletedCount = 0;
+    private Integer hasPayedCount = 0;
     //全部
-    private BigDecimal unPayCount;
-    private BigDecimal hasPayCount;
+    private Integer totalCount = 0;
 
-    private BigDecimal unPaySum;
-    private BigDecimal hasPauSum;
+    private Integer currentMonthCount = 0;
 
-    public BigDecimal getUnPayCount() {
-        return unPayCount;
-    }
+    private BigDecimal totalExpense = new BigDecimal(0.00);
 
-    public void setUnPayCount(BigDecimal unPayCount) {
-        this.unPayCount = unPayCount;
-    }
-
-    public BigDecimal getHasPayCount() {
-        return hasPayCount;
-    }
-
-    public void setHasPayCount(BigDecimal hasPayCount) {
-        this.hasPayCount = hasPayCount;
-    }
-
-    public BigDecimal getUnPaySum() {
-        return unPaySum;
-    }
-
-    public void setUnPaySum(BigDecimal unPaySum) {
-        this.unPaySum = unPaySum;
-    }
-
-    public BigDecimal getHasPauSum() {
-        return hasPauSum;
-    }
-
-    public void setHasPauSum(BigDecimal hasPauSum) {
-        this.hasPauSum = hasPauSum;
-    }
+    private BigDecimal currentMonthExpense = new BigDecimal(0.00);
 
     public Integer getUnStartCount() {
         return unStartCount;
@@ -72,5 +42,45 @@ public class OrderCountDetail {
 
     public void setTransportCompletedCount(Integer transportCompletedCount) {
         this.transportCompletedCount = transportCompletedCount;
+    }
+
+    public Integer getHasPayedCount() {
+        return hasPayedCount;
+    }
+
+    public void setHasPayedCount(Integer hasPayedCount) {
+        this.hasPayedCount = hasPayedCount;
+    }
+
+    public Integer getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public Integer getCurrentMonthCount() {
+        return currentMonthCount;
+    }
+
+    public void setCurrentMonthCount(Integer currentMonthCount) {
+        this.currentMonthCount = currentMonthCount;
+    }
+
+    public BigDecimal getTotalExpense() {
+        return totalExpense;
+    }
+
+    public void setTotalExpense(BigDecimal totalExpense) {
+        this.totalExpense = totalExpense;
+    }
+
+    public BigDecimal getCurrentMonthExpense() {
+        return currentMonthExpense;
+    }
+
+    public void setCurrentMonthExpense(BigDecimal currentMonthExpense) {
+        this.currentMonthExpense = currentMonthExpense;
     }
 }

@@ -8,16 +8,16 @@ public enum OrderStatusEnum {
     IN_TRANSIT(110, "运输中"),
     TRANSPORT_COMPLETED(120, "已完成");
 
-    private int key;
+    private Integer key;
 
     private String value;
 
-    OrderStatusEnum(int key, String value) {
+    OrderStatusEnum(Integer key, String value) {
         this.key = key;
         this.value = value;
     }
 
-    public int getKey() {
+    public Integer getKey() {
         return key;
     }
 
