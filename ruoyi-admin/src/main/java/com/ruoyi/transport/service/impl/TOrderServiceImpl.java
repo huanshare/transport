@@ -100,6 +100,8 @@ public class TOrderServiceImpl implements ITOrderService {
         //更新订单状态时间表
         TOrderTime tOrderTime=new TOrderTime();
         BeanUtils.copyProperties(tOrder,tOrderTime);
+        tOrderTime.setOrderId(tOrder.getId());
+        tOrderTime.setOrderCode(tOrder.getOrderCode());
         tOrderTimeMapper.insertTOrderTime(tOrderTime);
         //保存其他信息
         saveOtherInfo(orderDetailModel,false);
