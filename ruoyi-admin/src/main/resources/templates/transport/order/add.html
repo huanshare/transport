@@ -40,7 +40,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">预计费用：</label>
                 <div class="col-sm-8">
-                    <input name="expectExpense" class="form-control" type="text" required>
+                    <input name="expectExpense" class="form-control" type="number" required>
                 </div>
             </div>
             <div class="form-group">    
@@ -48,7 +48,7 @@
                 <div class="col-sm-8">
                     <div class="input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="expectStartTime" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+                        <input name="expectStartTime" class="form-control" placeholder="yyyy-MM-dd hh" type="text" required>
                     </div>
                 </div>
             </div>
@@ -57,46 +57,46 @@
                 <div class="col-sm-8">
                     <div class="input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="expectArrivalTime" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+                        <input name="expectArrivalTime" class="form-control" placeholder="yyyy-MM-dd hh" type="text" required>
                     </div>
                 </div>
             </div>
-            <div class="form-group">    
+            <!--<div class="form-group">
                 <label class="col-sm-3 control-label">实际费用：</label>
                 <div class="col-sm-8">
-                    <input name="actualExpense" class="form-control" type="text" >
+                    <input name="actualExpense" class="form-control" type="number" >
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">实际出发时间：</label>
                 <div class="col-sm-8">
                     <div class="input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="actualStartTime" class="form-control" placeholder="yyyy-MM-dd" type="text" >
+                        <input name="orderStartTime" class="form-control" placeholder="yyyy-MM-dd hh" type="text" >
                     </div>
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">实际到达时间：</label>
                 <div class="col-sm-8">
                     <div class="input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="actualArrivalTime" class="form-control" placeholder="yyyy-MM-dd" type="text" >
+                        <input name="orderArriveTime" class="form-control" placeholder="yyyy-MM-dd hh" type="text" >
                     </div>
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">高速费：</label>
                 <div class="col-sm-8">
-                    <input name="hignSpeedExpense" class="form-control" type="text">
+                    <input name="hignSpeedExpense" class="form-control" type="number">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">停车费：</label>
                 <div class="col-sm-8">
-                    <input name="parkingExpense" class="form-control" type="text">
+                    <input name="parkingExpense" class="form-control" type="number">
                 </div>
-            </div>
+            </div>-->
             <div class="form-group">
                 <table id="table-OrderVehicleDriver">
                     <thead class="tr-copy">
@@ -113,19 +113,19 @@
                     <tbody id="tBody-orderVehicleDriver">
                         <tr class="tr-copy">
                             <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入司机名称"  maxlength="30" required>
+                                <input name="" class="form-control driverName request_item" type="text" placeholder="请输入司机名称"  maxlength="30" required>
                             </td>
                             <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入司机手机号"  maxlength="30" required>
+                                <input name="" class="form-control driverTelephone  request_item" type="text" placeholder="请输入司机手机号"  maxlength="30" required>
                             </td>
                             <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入司机身份证号"  maxlength="30" >
+                                <input name="" class="form-control driverIdentityCard" type="text" placeholder="请输入司机身份证号"  maxlength="30" >
                             </td>
                             <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入车牌号"  maxlength="30" required>
+                                <input name="" class="form-control vehicleNumber request_item" type="text" placeholder="请输入车牌号"  maxlength="30" required>
                             </td>
                             <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入调度人"  maxlength="30" >
+                                <input name="" class="form-control dispatcher" type="text" placeholder="请输入调度人"  maxlength="30" >
                             </td>
                             <!--<td>-->
                                 <!--<input name="" class="form-control" type="text" placeholder="请输入司机名称"  maxlength="30" required>-->
@@ -157,19 +157,19 @@
                 if(formData.expectArrivalTime!=""){
                     formData.expectArrivalTime=formData.expectArrivalTime+":00:00";
                 }
-                if(formData.actualStartTime!=""){
-                    formData.actualStartTime=formData.actualStartTime+":00:00";
+                /*if(formData.orderStartTime!=""){
+                    formData.orderStartTime=formData.orderStartTime+":00:00";
                 }
-                if(formData.actualArrivalTime!=""){
-                    formData.actualArrivalTime=formData.actualArrivalTime+":00:00";
-                }
+                if(formData.orderArriveTime!=""){
+                    formData.orderArriveTime=formData.orderArriveTime+":00:00";
+                }*/
                 $("#table-OrderVehicleDriver tbody tr").each(function(index, value){
                     var orderVehicleDriver={};
-                    orderVehicleDriver.driverName=$(this).find("input").val();
-                    orderVehicleDriver.driverTelephone=$(this).find("input").val();
-                    orderVehicleDriver.driverIdentityCard=$(this).find("input").val();
-                    orderVehicleDriver.vehicleNumber=$(this).find("input").val();
-                    orderVehicleDriver.dispatcher=$(this).find("input").val();
+                    orderVehicleDriver.driverName=$(this).find(".driverName").val();
+                    orderVehicleDriver.driverTelephone=$(this).find(".driverTelephone").val();
+                    orderVehicleDriver.driverIdentityCard=$(this).find(".driverIdentityCard").val();
+                    orderVehicleDriver.vehicleNumber=$(this).find(".vehicleNumber").val();
+                    orderVehicleDriver.dispatcher=$(this).find(".dispatcher").val();
                     orderVehicleDriverList.push(orderVehicleDriver);
                 });
                 formData.orderVehicleDriverList=orderVehicleDriverList;
@@ -181,41 +181,61 @@
             format: "yyyy-mm-dd hh",
             minView: "day",
             autoclose: true
+        }).on('changeDate', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var startTime = event.date;
+            $("input[name='expectArrivalTime']").datetimepicker('setStartDate', startTime);
         });
 
         $("input[name='expectArrivalTime']").datetimepicker({
             format: "yyyy-mm-dd hh",
             minView: "day",
             autoclose: true
+        }).on('changeDate', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var endTime = event.date;
+            $("input[name='expectStartTime']").datetimepicker('setEndDate', endTime);
         });
 
-        $("input[name='actualStartTime']").datetimepicker({
+       /* $("input[name='orderStartTime']").datetimepicker({
             format: "yyyy-mm-dd hh",
             minView: "day",
             autoclose: true
+        }).on('changeDate', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var startTime = event.date;
+            $("input[name='orderArriveTime']").datetimepicker('setStartDate', startTime);
         });
 
-        $("input[name='actualArrivalTime']").datetimepicker({
+        $("input[name='orderArriveTime']").datetimepicker({
             format: "yyyy-mm-dd hh" ,
             minView: "day",
             autoclose: true
-        });
+        }).on('changeDate', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var endTime = event.date;
+            $("input[name='orderStartTime']").datetimepicker('setEndDate', endTime);
+        });*/
 
          var $copyHtml="<tr class=\"tr-copy\">\n" +
             "\t<td>\n" +
-            "\t\t<input name=\"\" class=\"form-control\" type=\"text\" placeholder=\"请输入司机名称\"  maxlength=\"30\" required>\n" +
+            "\t\t<input name=\"\" class=\"form-control  driverName request_item\" type=\"text\" placeholder=\"请输入司机名称\"  maxlength=\"30\" required>\n" +
             "\t</td>\n" +
             "\t<td>\n" +
-            "\t\t<input name=\"\" class=\"form-control\" type=\"text\" placeholder=\"请输入司机手机号\"  maxlength=\"30\" required>\n" +
+            "\t\t<input name=\"\" class=\"form-control  driverTelephone request_item\" type=\"text\" placeholder=\"请输入司机手机号\"  maxlength=\"30\" required>\n" +
             "\t</td>\n" +
             "\t<td>\n" +
-            "\t\t<input name=\"\" class=\"form-control\" type=\"text\" placeholder=\"请输入司机身份证号\"  maxlength=\"30\" >\n" +
+            "\t\t<input name=\"\" class=\"form-control driverIdentityCard \" type=\"text\" placeholder=\"请输入司机身份证号\"  maxlength=\"30\" >\n" +
             "\t</td>\n" +
             "\t<td>\n" +
-            "\t\t<input name=\"\" class=\"form-control\" type=\"text\" placeholder=\"请输入车牌号\"  maxlength=\"30\" required>\n" +
+            "\t\t<input name=\"\" class=\"form-control vehicleNumber request_item\" type=\"text\" placeholder=\"请输入车牌号\"  maxlength=\"30\" required>\n" +
             "\t</td>\n" +
             "\t<td>\n" +
-            "\t\t<input name=\"\" class=\"form-control\" type=\"text\" placeholder=\"请输入调度人\"  maxlength=\"30\" >\n" +
+            "\t\t<input name=\"\" class=\"form-control dispatcher\" type=\"text\" placeholder=\"请输入调度人\"  maxlength=\"30\" >\n" +
             "\t</td>\n" +
            /* "\t<td>\n" +
             "\t\t<input name=\"\" class=\"form-control\" type=\"text\" placeholder=\"请输入司机名称\"  maxlength=\"30\" required>\n" +

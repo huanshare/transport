@@ -4,19 +4,15 @@ import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.transport.domain.TDriver;
-import com.ruoyi.transport.domain.TOrder;
-import com.ruoyi.transport.domain.TOrderVehicleDriver;
-import com.ruoyi.transport.domain.TVehicle;
+import com.ruoyi.transport.domain.*;
 import com.ruoyi.transport.enums.BillStatusEnum;
 import com.ruoyi.transport.enums.OrderStatusEnum;
-import com.ruoyi.transport.enums.PayableStatus;
-import com.ruoyi.transport.mapper.TDriverMapper;
-import com.ruoyi.transport.mapper.TOrderMapper;
-import com.ruoyi.transport.mapper.TOrderVehicleDriverMapper;
-import com.ruoyi.transport.mapper.TVehicleMapper;
+import com.ruoyi.transport.enums.PayableStatusEnum;
+import com.ruoyi.transport.mapper.*;
+import com.ruoyi.transport.model.OrderCountDetail;
 import com.ruoyi.transport.model.OrderInfoRequestModel;
 import com.ruoyi.transport.model.OrderDetailModel;
+import com.ruoyi.transport.model.OrderStatusCount;
 import com.ruoyi.transport.service.ITOrderService;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
@@ -24,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -49,6 +46,9 @@ public class TOrderServiceImpl implements ITOrderService {
 
     @Autowired
     private TVehicleMapper tVehicleMapper;
+
+    @Autowired
+    private TOrderTimeMapper tOrderTimeMapper;
 
 
     /**
@@ -91,11 +91,16 @@ public class TOrderServiceImpl implements ITOrderService {
         tOrder.setOrderCode(commonService.getOrderCode());
         tOrder.setOrderStatus(OrderStatusEnum.UN_START.getKey());
         tOrder.setBillStatus(BillStatusEnum.UN_BILLING.getKey());
-        tOrder.setPayableStatus(PayableStatus.UN_PAY.getKey());
+        tOrder.setPayableStatus(PayableStatusEnum.UN_PAY.getKey());
         tOrder.setCreateTime(DateUtils.getNowDate());
         tOrder.setUpdateTime(DateUtils.getNowDate());
         tOrderMapper.insertTOrder(tOrder);
         orderDetailModel.setId(tOrder.getId());
+
+        //更新订单状态时间表
+        TOrderTime tOrderTime=new TOrderTime();
+        BeanUtils.copyProperties(tOrder,tOrderTime);
+        tOrderTimeMapper.insertTOrderTime(tOrderTime);
         //保存其他信息
         saveOtherInfo(orderDetailModel,false);
 
@@ -118,10 +123,12 @@ public class TOrderServiceImpl implements ITOrderService {
         BeanUtils.copyProperties(orderDetailModel,tOrder);
         tOrderMapper.updateTOrder(tOrder);
 
-        //保存订单车辆司机表
-        TOrderVehicleDriver orderVehicleDriver=new TOrderVehicleDriver();
-        BeanUtils.copyProperties(orderDetailModel,orderVehicleDriver);
-        tOrderVehicleDriverMapper.updateTOrderVehicleDriver(orderVehicleDriver);
+
+        TOrderTime current = tOrderTimeMapper.selectTOrderTimeByOrderId(tOrder.getId());
+        TOrderTime tOrderTime=new TOrderTime();
+        BeanUtils.copyProperties(orderDetailModel,tOrderTime);
+        tOrderTime.setId(current.getId());
+        tOrderTimeMapper.updateTOrderTime(tOrderTime);
 
         //保存其他信息
         saveOtherInfo(orderDetailModel,true);
@@ -234,5 +241,37 @@ public class TOrderServiceImpl implements ITOrderService {
             }
         }
         return tOrderMapper.updateTOrderStatus(id,orderStatus,billStatus,payableStatus,updateBy);
+    }
+    @Override
+    public OrderCountDetail getOrderSumData(){
+        OrderCountDetail orderCountDetail = tOrderMapper.selectOrderExpenseCount(getCurrentMonthFirstDay(), getCurrentMonthLastDay());
+        List<OrderStatusCount> orderStatusCounts = tOrderMapper.selectOrderStatusCount();
+        if(CollectionUtils.isNotEmpty(orderStatusCounts)){
+            orderStatusCounts.forEach(item->{
+                if(OrderStatusEnum.UN_START.getKey().equals(item.getOrderStatus())){
+                    orderCountDetail.setUnStartCount(item.getOrderStatusCount());
+                }else if(OrderStatusEnum.IN_TRANSIT.getKey().equals(item.getOrderStatus())){
+                    orderCountDetail.setInTransitCount(item.getOrderStatusCount());
+                }else if(OrderStatusEnum.TRANSPORT_COMPLETED.getKey().equals(item.getOrderStatus())){
+                    orderCountDetail.setTransportCompletedCount(item.getOrderStatusCount());
+                }else if((PayableStatusEnum.HAS_PAYED.getKey()+300)==item.getOrderStatus()){
+                    orderCountDetail.setHasPayedCount(item.getOrderStatusCount());
+                }
+            });
+        }
+        return orderCountDetail;
+    }
+
+    private Date getCurrentMonthFirstDay(){
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, 0);
+        c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
+        return  c.getTime();
+    }
+
+    private Date getCurrentMonthLastDay(){
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
+        return  ca.getTime();
     }
 }

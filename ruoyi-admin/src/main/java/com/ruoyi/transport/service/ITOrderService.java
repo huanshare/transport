@@ -1,5 +1,6 @@
 package com.ruoyi.transport.service;
 
+import com.ruoyi.transport.model.OrderCountDetail;
 import com.ruoyi.transport.model.OrderInfoRequestModel;
 import com.ruoyi.transport.model.OrderDetailModel;
 
@@ -74,5 +75,8 @@ public interface ITOrderService {
                                   Integer billStatus,
                                   Integer payableStatus,
                                   String updateBy);
+
+
+    public OrderCountDetail getOrderSumData();
 
 }

@@ -102,18 +102,6 @@ public class TOrder extends BaseEntity {
     private Long actualExpense;
 
     /**
-     * 实际出发时间
-     */
-    @Excel(name = "实际出发时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date actualStartTime;
-
-    /**
-     * 实际到达时间
-     */
-    @Excel(name = "实际到达时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date actualArrivalTime;
-
-    /**
      * 高速费
      */
     private Double hignSpeedExpense;
@@ -240,22 +228,6 @@ public class TOrder extends BaseEntity {
         return actualExpense;
     }
 
-    public void setActualStartTime(Date actualStartTime) {
-        this.actualStartTime = actualStartTime;
-    }
-
-    public Date getActualStartTime() {
-        return actualStartTime;
-    }
-
-    public void setActualArrivalTime(Date actualArrivalTime) {
-        this.actualArrivalTime = actualArrivalTime;
-    }
-
-    public Date getActualArrivalTime() {
-        return actualArrivalTime;
-    }
-
     public void setHignSpeedExpense(Double hignSpeedExpense) {
         this.hignSpeedExpense = hignSpeedExpense;
     }
@@ -297,8 +269,6 @@ public class TOrder extends BaseEntity {
                 .append("expectStartTime", getExpectStartTime())
                 .append("expectArrivalTime", getExpectArrivalTime())
                 .append("actualExpense", getActualExpense())
-                .append("actualStartTime", getActualStartTime())
-                .append("actualArrivalTime", getActualArrivalTime())
                 .append("hignSpeedExpense", getHignSpeedExpense())
                 .append("parkingExpense", getParkingExpense())
                 .append("remark", getRemark())

@@ -1,208 +1,348 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="include :: header('修改订单')" />
-    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: header('修改订单')"/>
+    <th:block th:include="include :: datetimepicker-css"/>
 </head>
 <body class="white-bg">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-order-edit" th:object="${tOrder}">
-            <input name="id" th:field="*{id}" type="hidden">
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">客户名：</label>
-                <div class="col-sm-8">
-                    <input name="userName" th:field="*{userName}" class="form-control" type="text">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-order-edit" th:object="${tOrder}">
+        <input name="id" th:field="*{id}" type="hidden">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">客户名：</label>
+            <div class="col-sm-8">
+                <input name="userName" th:field="*{userName}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">客户手机号：</label>
+            <div class="col-sm-8">
+                <input name="userTelephone" th:field="*{userTelephone}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">客户公司名：</label>
+            <div class="col-sm-8">
+                <input name="companyName" th:field="*{companyName}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">起始地：</label>
+            <div class="col-sm-8">
+                <input name="startArea" th:field="*{startArea}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">目的地：</label>
+            <div class="col-sm-8">
+                <input name="endArea" th:field="*{endArea}" class="form-control" type="text">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">预计费用：</label>
+            <div class="col-sm-8">
+                <input name="expectExpense" th:field="*{expectExpense}" class="form-control" type="number">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">预计出发时间：</label>
+            <div class="col-sm-8">
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input name="expectStartTime" th:value="${#dates.format(tOrder.expectStartTime, 'yyyy-MM-dd hh')}"
+                           class="form-control" placeholder="yyyy-MM-dd hh" type="text">
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">客户手机号：</label>
-                <div class="col-sm-8">
-                    <input name="userTelephone" th:field="*{userTelephone}" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">预计到达时间：</label>
+            <div class="col-sm-8">
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input name="expectArrivalTime"
+                           th:value="${#dates.format(tOrder.expectArrivalTime, 'yyyy-MM-dd hh')}" class="form-control"
+                           placeholder="yyyy-MM-dd hh" type="text">
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">客户公司名：</label>
-                <div class="col-sm-8">
-                    <input name="companyName" th:field="*{companyName}" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">订单状态：</label>
+            <div class="col-sm-8">
+                <select name="orderStatus" class="form-control m-b" th:with="type=${@dict.getType('order_status')}"
+                        th:disabled="*{orderStatus==120}?'disabled'">
+                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"
+                            th:field="*{orderStatus}"></option>
+                </select>
+            </div>
+        </div>
+        <!-- <div class="form-group" th:if="*{orderStatus==120}">
+             <label class="col-sm-3 control-label">开票状态：</label>
+             <div class="col-sm-8">
+                 <select name="billStatus" class="form-control m-b" th:with="type=${@dict.getType('bill_status')}">
+                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{billStatus}"></option>
+                 </select>
+             </div>
+         </div>-->
+        <div class="form-group startTimeArea" th:style="*{orderStatus == 100}?'display: none'">
+            <label class="col-sm-3 control-label ">实际出发时间：</label>
+            <div class="col-sm-8">
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input name="orderStartTime" th:value="${#dates.format(tOrder.orderStartTime, 'yyyy-MM-dd hh')}"
+                           class="form-control" placeholder="yyyy-MM-dd hh" type="text">
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">起始地：</label>
-                <div class="col-sm-8">
-                    <input name="startArea" th:field="*{startArea}" class="form-control" type="text">
+        </div>
+        <div class="form-group arriveTimeArea" th:style="*{orderStatus lt 120}?'display: none'">
+            <label class="col-sm-3 control-label">实际到达时间：</label>
+            <div class="col-sm-8">
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input name="orderArriveTime" th:value="${#dates.format(tOrder.orderArriveTime, 'yyyy-MM-dd hh')}"
+                           class="form-control" placeholder="yyyy-MM-dd hh" type="text">
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">目的地：</label>
-                <div class="col-sm-8">
-                    <input name="endArea" th:field="*{endArea}" class="form-control" type="text">
+        </div>
+
+        <div class="form-group" th:if="*{orderStatus==120}">
+            <label class="col-sm-3 control-label">结算状态：</label>
+            <div class="col-sm-8">
+                <select name="payableStatus" class="form-control m-b" th:with="type=${@dict.getType('payable_status')}">
+                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"
+                            th:field="*{payableStatus}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group payTimeArea" th:style="*{payableStatus!=2}?'display: none'">
+            <label class="col-sm-3 control-label">结算时间：</label>
+            <div class="col-sm-8">
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input name="orderPayTime" th:value="${#dates.format(tOrder.orderPayTime, 'yyyy-MM-dd hh')}"
+                           class="form-control" placeholder="yyyy-MM-dd hh" type="text">
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">订单状态：</label>
-                <div class="col-sm-8">
-                    <select name="orderStatus" class="form-control m-b" th:with="type=${@dict.getType('order_status')}">
-                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{orderStatus}"></option>
-                    </select>
-                </div>
+        </div>
+        <div class="form-group payTimeArea" th:style="*{payableStatus!=2}?'display: none'">
+            <label class="col-sm-3 control-label">结算费用：</label>
+            <div class="col-sm-8">
+                <input name="actualExpense" th:field="*{actualExpense}" class="form-control" type="number">
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">开票状态：</label>
-                <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('bill_status')}">
-                        <input type="radio" th:id="${'billStatus_' + dict.dictCode}" name="billStatus" th:value="${dict.dictValue}" th:field="*{billStatus}">
-                        <label th:for="${'billStatus_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
-                    </div>
-                </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">高速费：</label>
+            <div class="col-sm-8">
+                <input name="hignSpeedExpense" th:field="*{hignSpeedExpense}" class="form-control" type="number">
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">结算状态：</label>
-                <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('payable_status')}">
-                        <input type="radio" th:id="${'payableStatus_' + dict.dictCode}" name="payableStatus" th:value="${dict.dictValue}" th:field="*{payableStatus}">
-                        <label th:for="${'payableStatus_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
-                    </div>
-                </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">停车费：</label>
+            <div class="col-sm-8">
+                <input name="parkingExpense" th:field="*{parkingExpense}" class="form-control" type="number">
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">预计费用：</label>
-                <div class="col-sm-8">
-                    <input name="expectExpense" th:field="*{expectExpense}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">预计出发时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="expectStartTime" th:value="${#dates.format(tOrder.expectStartTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">预计到达时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="expectArrivalTime" th:value="${#dates.format(tOrder.expectArrivalTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">实际费用：</label>
-                <div class="col-sm-8">
-                    <input name="actualExpense" th:field="*{actualExpense}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">实际出发时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="actualStartTime" th:value="${#dates.format(tOrder.actualStartTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">实际到达时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="actualArrivalTime" th:value="${#dates.format(tOrder.actualArrivalTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">高速费：</label>
-                <div class="col-sm-8">
-                    <input name="hignSpeedExpense" th:field="*{hignSpeedExpense}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">停车费：</label>
-                <div class="col-sm-8">
-                    <input name="parkingExpense" th:field="*{parkingExpense}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">
-                <table id="table-OrderVehicleDriver">
-                    <thead class="tr-copy">
-                    <td>司机姓名</td>
-                    <td>司机手机号</td>
-                    <td>司机身份证号</td>
-                    <td>车牌号</td>
-                    <td>调度人</td>
-                    <!--<td>外调车</td>-->
+        </div>
+        <div class="form-group">
+            <table id="table-OrderVehicleDriver">
+                <thead class="tr-copy">
+                <td>司机姓名</td>
+                <td>司机手机号</td>
+                <td>司机身份证号</td>
+                <td>车牌号</td>
+                <td>调度人</td>
+                <!--<td>外调车</td>-->
+                <td>
+                    <button type="button" class="btn btn-outline btn-primary btn-add-orderVehicleDriver">新增</button>
+                </td>
+                </thead>
+                <tbody id="tBody-orderVehicleDriver">
+                <tr class="tr-copy" th:each="item:*{orderVehicleDriverList}">
                     <td>
-                        <button type="button" class="btn btn-outline btn-primary btn-add-orderVehicleDriver">新增</button>
+                        <input name="" class="form-control driverName" type="text" placeholder="请输入司机名称" maxlength="30"
+                               required th:value="${item.driverName}">
                     </td>
-                    </thead>
-                    <tbody id="tBody-orderVehicleDriver" th:each="item,iterStat : ${orderVehicleDriverList}">
-                        <tr class="tr-copy">
-                            <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入司机名称"  maxlength="30" required th:field="*{item.driverName}">
-                            </td>
-                            <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入司机手机号"  maxlength="30" required th:field="*{item.driverTelephone}">
-                            </td>
-                            <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入司机身份证号"  maxlength="30" th:field="*{item.driverIdentityCard}">
-                            </td>
-                            <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入车牌号"  maxlength="30" required th:field="*{item.vehicleNumber}">
-                            </td>
-                            <td>
-                                <input name="" class="form-control" type="text" placeholder="请输入调度人"  maxlength="30" th:field="*{item.dispatcher}">
-                            </td>
-                            <!--<td>-->
-                            <!--<input name="" class="form-control" type="text" placeholder="请输入司机名称"  maxlength="30" required th:field="*{item.driverTelephone}">-->
-                            <!--</td>-->
-                            <td>
-                                <button type="button" class="btn btn-outline btn-danger btn-delete-orderVehicleDriver">删除</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </form>
-    </div>
-    <th:block th:include="include :: footer" />
-    <th:block th:include="include :: datetimepicker-js" />
-    <script type="text/javascript">
-        var prefix = ctx + "transport/order";
-        $("#form-order-edit").validate({
-            focusCleanup: true
-        });
+                    <td>
+                        <input name="" class="form-control driverTelephone" type="text" placeholder="请输入司机手机号"
+                               maxlength="30" required th:value="${item.driverTelephone}">
+                    </td>
+                    <td>
+                        <input name="" class="form-control driverIdentityCard" type="text" placeholder="请输入司机身份证号"
+                               maxlength="30" th:value="${item.driverIdentityCard}">
+                    </td>
+                    <td>
+                        <input name="" class="form-control vehicleNumber" type="text" placeholder="请输入车牌号"
+                               maxlength="30" required th:value="${item.vehicleNumber}">
+                    </td>
+                    <td>
+                        <input name="" class="form-control dispatcher" type="text" placeholder="请输入调度人" maxlength="30"
+                               th:value="${item.dispatcher}">
+                    </td>
+                    <!--<td>-->
+                    <!--<input name="" class="form-control" type="text" placeholder="请输入司机名称"  maxlength="30" required th:field="*{item.driverTelephone}">-->
+                    <!--</td>-->
+                    <td>
+                        <button type="button" class="btn btn-outline btn-danger btn-delete-orderVehicleDriver">删除
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: datetimepicker-js"/>
+<script type="text/javascript">
+    var prefix = ctx + "transport/order";
+    $("#form-order-edit").validate({
+        focusCleanup: true
+    });
 
-        function submitHandler() {
-            if ($.validate.form()) {
-                $.operate.save(prefix + "/edit", $('#form-order-edit').serialize());
+    function submitHandler() {
+        if ($.validate.form()) {
+            var formData = $('#form-order-edit').serializeJson();
+            var orderVehicleDriverList = [];
+            if (formData.expectStartTime != "") {
+                formData.expectStartTime = formData.expectStartTime + ":00:00";
             }
+            if (formData.expectArrivalTime != "") {
+                formData.expectArrivalTime = formData.expectArrivalTime + ":00:00";
+            }
+            if (formData.orderStartTime != "") {
+                formData.orderStartTime = formData.orderStartTime + ":00:00";
+            }
+            if (formData.orderArriveTime != "") {
+                formData.orderArriveTime = formData.orderArriveTime + ":00:00";
+            }
+            if (formData.orderPayTime != "") {
+                formData.orderPayTime = formData.orderPayTime + ":00:00";
+            }
+            $("#table-OrderVehicleDriver tbody tr").each(function (index, value) {
+                var orderVehicleDriver = {};
+                orderVehicleDriver.driverName = $(this).find(".driverName").val();
+                orderVehicleDriver.driverTelephone = $(this).find(".driverTelephone").val();
+                orderVehicleDriver.driverIdentityCard = $(this).find(".driverIdentityCard").val();
+                orderVehicleDriver.vehicleNumber = $(this).find(".vehicleNumber").val();
+                orderVehicleDriver.dispatcher = $(this).find(".dispatcher").val();
+                orderVehicleDriverList.push(orderVehicleDriver);
+            });
+            formData.orderVehicleDriverList = orderVehicleDriverList;
+            $.operate.savePost(prefix + "/edit", JSON.stringify(formData));
         }
+    }
+    $("input[name='orderArriveTime']").datetimepicker({
+        format: "yyyy-mm-dd hh",
+        minView: "day",
+        autoclose: true
+    });
+    $("input[name='orderPayTime']").datetimepicker({
+        format: "yyyy-mm-dd hh",
+        minView: "day",
+        autoclose: true
+    });
 
-        $("input[name='expectStartTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
-            autoclose: true
-        });
+    $("select[name='orderStatus']").change(function () {
+        if ($(this).val() == "110") {
+            $(".startTimeArea").show();
+            $(".arriveTimeArea").hide();
+        }else if ($(this).val() == "120") {
+            $(".startTimeArea").show();
+            $(".arriveTimeArea").show();
+        }
+    });
+    $("select[name='payableStatus']").change(function () {
+        if ($(this).val() == "2") {
+            $(".payTimeArea").show();
+        }else{
+            $(".payTimeArea").hide();
+        }
+    });
 
-        $("input[name='expectArrivalTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
-            autoclose: true
-        });
+    $("input[name='expectStartTime']").datetimepicker({
+        format: "yyyy-mm-dd hh",
+        minView: "day",
+        autoclose: true
+    }).on('changeDate', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var startTime = event.date;
+        $("input[name='expectArrivalTime']").datetimepicker('setStartDate', startTime);
+    });
 
-        $("input[name='actualStartTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
-            autoclose: true
-        });
+    $("input[name='expectArrivalTime']").datetimepicker({
+        format: "yyyy-mm-dd hh",
+        minView: "day",
+        autoclose: true
+    }).on('changeDate', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var endTime = event.date;
+        $("input[name='expectStartTime']").datetimepicker('setEndDate', endTime);
+    });
 
-        $("input[name='actualArrivalTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
-            autoclose: true
+    $("input[name='orderStartTime']").datetimepicker({
+        format: "yyyy-mm-dd hh",
+        minView: "day",
+        autoclose: true
+    }).on('changeDate', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var startTime = event.date;
+        $("input[name='orderArriveTime']").datetimepicker('setStartDate', startTime);
+    });
+
+    $("input[name='orderArriveTime']").datetimepicker({
+        format: "yyyy-mm-dd hh",
+        minView: "day",
+        autoclose: true
+    }).on('changeDate', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var endTime = event.date;
+        $("input[name='orderStartTime']").datetimepicker('setEndDate', endTime);
+    });
+
+    var $copyHtml = "<tr class=\"tr-copy\">\n" +
+        "\t<td>\n" +
+        "\t\t<input name=\"\" class=\"form-control  driverName request_item\" type=\"text\" placeholder=\"请输入司机名称\"  maxlength=\"30\" required>\n" +
+        "\t</td>\n" +
+        "\t<td>\n" +
+        "\t\t<input name=\"\" class=\"form-control  driverTelephone request_item\" type=\"text\" placeholder=\"请输入司机手机号\"  maxlength=\"30\" required>\n" +
+        "\t</td>\n" +
+        "\t<td>\n" +
+        "\t\t<input name=\"\" class=\"form-control driverIdentityCard \" type=\"text\" placeholder=\"请输入司机身份证号\"  maxlength=\"30\" >\n" +
+        "\t</td>\n" +
+        "\t<td>\n" +
+        "\t\t<input name=\"\" class=\"form-control vehicleNumber request_item\" type=\"text\" placeholder=\"请输入车牌号\"  maxlength=\"30\" required>\n" +
+        "\t</td>\n" +
+        "\t<td>\n" +
+        "\t\t<input name=\"\" class=\"form-control dispatcher\" type=\"text\" placeholder=\"请输入调度人\"  maxlength=\"30\" >\n" +
+        "\t</td>\n" +
+            /* "\t<td>\n" +
+             "\t\t<input name=\"\" class=\"form-control\" type=\"text\" placeholder=\"请输入司机名称\"  maxlength=\"30\" required>\n" +
+             "\t</td>\n" +*/
+        "\t<td>\n" +
+        "\t\t<button type=\"button\" class=\"btn btn-outline btn-danger btn-delete-orderVehicleDriver\">删除</button>\n" +
+        "\t</td>\n" +
+        "</tr>";
+
+    $(".btn-add-orderVehicleDriver").click(function () {
+        $("#table-OrderVehicleDriver").append($copyHtml);
+        $(".btn-delete-orderVehicleDriver").click(function () {
+            if ($("#table-OrderVehicleDriver tbody tr").length <= 1) {
+                $.modal.alertError("至少保留一条信息");
+                return false;
+            }
+            $(this).parent().parent().remove();
         });
-    </script>
+    });
+    $(".btn-delete-orderVehicleDriver").click(function () {
+        if ($("#table-OrderVehicleDriver tbody tr").length <= 1) {
+            $.modal.alertError("至少保留一条信息");
+            return false;
+        }
+        $(this).parent().parent().remove();
+    });
+</script>
 </body>
 </html>

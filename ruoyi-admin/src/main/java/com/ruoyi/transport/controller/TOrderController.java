@@ -1,23 +1,23 @@
 package com.ruoyi.transport.controller;
 
-import java.util.List;
-
-import com.ruoyi.transport.domain.TOrderVehicleDriver;
-import com.ruoyi.transport.model.OrderInfoRequestModel;
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.transport.model.OrderCountDetail;
 import com.ruoyi.transport.model.OrderDetailModel;
+import com.ruoyi.transport.model.OrderInfoRequestModel;
+import com.ruoyi.transport.service.ITOrderService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.transport.service.ITOrderService;
-import com.ruoyi.common.core.controller.BaseController;
-import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.framework.util.ShiroUtils;
+
+import java.util.List;
 
 /**
  * 订单Controller
@@ -102,7 +102,7 @@ public class TOrderController extends BaseController {
     @Log(title = "订单", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(OrderDetailModel tOrder) {
+    public AjaxResult editSave(@RequestBody OrderDetailModel tOrder) {
         tOrder.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(tOrderService.updateTOrder(tOrder));
     }
@@ -129,5 +129,14 @@ public class TOrderController extends BaseController {
     public AjaxResult updateTOrderStatus(OrderInfoRequestModel tOrder) {
         String updateBy = ShiroUtils.getLoginName();
         return toAjax(tOrderService.updateTOrderStatus(tOrder.getId(),tOrder.getOrderStatus(),tOrder.getBillStatus(),tOrder.getPayableStatus(), updateBy));
+    }
+
+    // 系统介绍
+    @GetMapping("/sumPage")
+    public String sumPage(ModelMap mmap)
+    {
+        OrderCountDetail orderSumData = tOrderService.getOrderSumData();
+        mmap.put("orderSumData", orderSumData);
+        return prefix + "/sumPage";
     }
 }

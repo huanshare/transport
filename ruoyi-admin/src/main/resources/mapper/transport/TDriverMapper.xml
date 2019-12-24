@@ -30,6 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="driverTelephone != null  and driverTelephone != ''"> and driver_telephone = #{driverTelephone}</if>
             <if test="driverIdentityCard != null  and driverIdentityCard != ''"> and driver_identity_card = #{driverIdentityCard}</if>
             <if test="drivingLicenseImage != null  and drivingLicenseImage != ''"> and driving_license_image = #{drivingLicenseImage}</if>
+            order by id desc
         </where>
     </select>
     

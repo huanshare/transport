@@ -1,12 +1,14 @@
 package com.ruoyi.transport.mapper;
 
 import com.ruoyi.transport.domain.TOrder;
-
-import java.util.List;
-
-import com.ruoyi.transport.model.OrderInfoRequestModel;
+import com.ruoyi.transport.model.OrderCountDetail;
 import com.ruoyi.transport.model.OrderDetailModel;
+import com.ruoyi.transport.model.OrderInfoRequestModel;
+import com.ruoyi.transport.model.OrderStatusCount;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 订单Mapper接口
@@ -91,6 +93,11 @@ public interface TOrderMapper {
                                   @Param("billStatus")Integer billStatus,
                                   @Param("payableStatus")Integer payableStatus,
                                   @Param("updateBy") String updateBy);
+
+    public List<OrderStatusCount> selectOrderStatusCount();
+
+    public OrderCountDetail selectOrderExpenseCount(@Param("startTime")Date startTime,
+                                                    @Param("endTime")Date endTime);
 
 
 }
