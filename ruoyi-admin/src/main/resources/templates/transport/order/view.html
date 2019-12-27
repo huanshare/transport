@@ -6,7 +6,7 @@
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content gray-bg">
-    <form class="form-horizontal m" id="form-order-edit" th:object="${tOrder}">
+    <form class="form-horizontal m" id="form-order-view" th:object="${tOrder}">
         <div class="row">
             <div class="col-sm-6">
                 <div class="ibox float-e-margins">
@@ -111,7 +111,7 @@
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input name="orderStartTime"
-                                           th:value="${tOrder.orderStartTime!=null?#dates.format(tOrder.orderStartTime, 'yyyy-MM-dd hh'):#dates.format(tOrder.expectStartTime, 'yyyy-MM-dd hh')}"
+                                           th:value="${#dates.format(tOrder.orderStartTime, 'yyyy-MM-dd hh')}"
                                            class="form-control" placeholder="yyyy-MM-dd hh" type="text">
                                 </div>
                             </div>
@@ -122,7 +122,7 @@
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input name="orderArriveTime"
-                                           th:value="${tOrder.orderArriveTime!=null?#dates.format(tOrder.orderArriveTime, 'yyyy-MM-dd hh'):#dates.format(tOrder.expectArrivalTime, 'yyyy-MM-dd hh')}"
+                                           th:value="${#dates.format(tOrder.orderArriveTime, 'yyyy-MM-dd hh')}"
                                            class="form-control" placeholder="yyyy-MM-dd hh" type="text">
                                 </div>
                             </div>
@@ -229,9 +229,6 @@
                         <div class="form-group">
                             <table id="table-OrderVehicleDriver">
                                 <thead class="tr-copy">
-                                <td>
-                                    <button type="button" class="btn btn-outline btn-primary btn-add-orderVehicleDriver">新增</button>
-                                </td>
                                 <td>司机姓名</td>
                                 <td>司机手机号</td>
                                 <!--<td>司机身份证号</td>-->
@@ -248,10 +245,6 @@
                                 </thead>
                                 <tbody id="tBody-orderVehicleDriver">
                                 <tr class="tr-copy" th:each="item:*{orderVehicleDriverList}">
-                                    <td>
-                                        <button type="button" class="btn btn-outline btn-danger btn-delete-orderVehicleDriver">删除
-                                        </button>
-                                    </td>
                                     <td>
                                         <input name="" class="form-control driverName" type="text" placeholder="请输入司机名称" maxlength="30"
                                                required th:value="${item.driverName}">
@@ -308,213 +301,12 @@
                 </div>
             </div>
         </div>
-
-
-
-        <div class="form-group" style="text-align: center">
-            <a class="btn btn-primary btn-save btn-sm" id="btnSave">&nbsp;保存全部&nbsp;</a>
-        </div>
     </form>
 </div>
 <th:block th:include="include :: footer"/>
 <th:block th:include="include :: datetimepicker-js"/>
 <script type="text/javascript">
-    var prefix = ctx + "transport/order";
-    $("#form-order-edit").validate({
-        focusCleanup: true
-    });
-    $("#btnSave").click(function () {
-        submitHandler();
-    });
-    function submitHandler() {
-        if ($.validate.form()) {
-            var formData = $('#form-order-edit').serializeJson();
-            var orderVehicleDriverList = [];
-            if (formData.expectStartTime != "") {
-                formData.expectStartTime = formData.expectStartTime + ":00:00";
-            }
-            if (formData.expectArrivalTime != "") {
-                formData.expectArrivalTime = formData.expectArrivalTime + ":00:00";
-            }
-            if (formData.orderStartTime != "") {
-                formData.orderStartTime = formData.orderStartTime + ":00:00";
-            }
-            if (formData.orderArriveTime != "") {
-                formData.orderArriveTime = formData.orderArriveTime + ":00:00";
-            }
-            if (formData.orderPayTime != "") {
-                formData.orderPayTime = formData.orderPayTime + ":00:00";
-            }
-            $("#table-OrderVehicleDriver tbody tr").each(function (index, value) {
-                var orderVehicleDriver = {};
-                orderVehicleDriver.driverName = $(this).find(".driverName").val();
-                orderVehicleDriver.driverTelephone = $(this).find(".driverTelephone").val();
-//                orderVehicleDriver.driverIdentityCard = $(this).find(".driverIdentityCard").val();
-                orderVehicleDriver.vehicleNumber = $(this).find(".vehicleNumber").val();
-                orderVehicleDriver.highSpeedFee = $(this).find(".highSpeedFee").val();
-                orderVehicleDriver.parkingFee = $(this).find(".parkingFee").val();
-                orderVehicleDriver.etcFee = $(this).find(".etcFee").val();
-                orderVehicleDriver.fuelFee = $(this).find(".fuelFee").val();
-                orderVehicleDriver.dispatcher = $(this).find(".dispatcher").val();
-                orderVehicleDriver.billFee = $(this).find(".billFee").val();
-                orderVehicleDriver.remark = $(this).find(".remark").val();
-                orderVehicleDriverList.push(orderVehicleDriver);
-            });
-            formData.orderVehicleDriverList = orderVehicleDriverList;
-            $.operate.savePost(prefix + "/edit", JSON.stringify(formData));
-        }
-    }
-    $("input[name='orderArriveTime']").datetimepicker({
-        format: "yyyy-mm-dd hh",
-        minView: "day",
-        autoclose: true
-    });
-    $("input[name='orderPayTime']").datetimepicker({
-        format: "yyyy-mm-dd hh",
-        minView: "day",
-        autoclose: true
-    });
-
-    $("select[name='orderStatus']").change(function () {
-        if ($(this).val() == "100") {
-            $(".startTimeArea").hide();
-            $(".arriveTimeArea").hide();
-            $(".payStatusArea").hide();
-            $(".payTimeArea").hide();
-            $(".billStatusArea").hide();
-            $(".billArea").hide();
-        } else if ($(this).val() == "110") {
-            $(".startTimeArea").show();
-            $(".arriveTimeArea").hide();
-            $(".payStatusArea").hide();
-            $(".payTimeArea").hide();
-            $(".billStatusArea").hide();
-            $(".billArea").hide();
-        } else if ($(this).val() == "120") {
-            $(".startTimeArea").show();
-            $(".arriveTimeArea").show();
-            $(".payStatusArea").show();
-            $(".billStatusArea").show();
-        }
-    });
-    $("select[name='payableStatus']").change(function () {
-        if ($(this).val() == "2") {
-            $(".payTimeArea").show();
-        } else {
-            $(".payTimeArea").hide();
-        }
-    });
-    $("select[name='billStatus']").change(function () {
-        if ($(this).val() == "2") {
-            $(".billArea").show();
-        } else {
-            $(".billArea").hide();
-        }
-    });
-
-    $("input[name='expectStartTime']").datetimepicker({
-        format: "yyyy-mm-dd hh",
-        minView: "day",
-        autoclose: true
-    }).on('changeDate', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        var startTime = event.date;
-        $("input[name='expectArrivalTime']").datetimepicker('setStartDate', startTime);
-    });
-
-    $("input[name='expectArrivalTime']").datetimepicker({
-        format: "yyyy-mm-dd hh",
-        minView: "day",
-        autoclose: true
-    }).on('changeDate', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        var endTime = event.date;
-        $("input[name='expectStartTime']").datetimepicker('setEndDate', endTime);
-    });
-
-    $("input[name='orderStartTime']").datetimepicker({
-        format: "yyyy-mm-dd hh",
-        minView: "day",
-        autoclose: true
-    }).on('changeDate', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        var startTime = event.date;
-        $("input[name='orderArriveTime']").datetimepicker('setStartDate', startTime);
-    });
-
-    $("input[name='orderArriveTime']").datetimepicker({
-        format: "yyyy-mm-dd hh",
-        minView: "day",
-        autoclose: true
-    }).on('changeDate', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        var endTime = event.date;
-        $("input[name='orderStartTime']").datetimepicker('setEndDate', endTime);
-    });
-
-    var $copyHtml = "<tr class=\"tr-copy\">\n" +
-        "<td>\n" +
-        "<button type=\"button\" class=\"btn btn-outline btn-danger btn-delete-orderVehicleDriver\">删除</button>\n" +
-        "</td>\n" +
-        "<td>\n" +
-        "<input name=\"\" class=\"form-control  driverName request_item\" type=\"text\" placeholder=\"司机名称\"  maxlength=\"30\" required>\n" +
-        "</td>\n" +
-        "<td>\n" +
-        "<input name=\"\" class=\"form-control  driverTelephone request_item\" type=\"text\" placeholder=\"司机手机号\"  maxlength=\"30\" >\n" +
-        "</td>\n" +
-//            "<td>\n" +
-//            "<input name=\"\" class=\"form-control driverIdentityCard \" type=\"text\" placeholder=\"司机身份证号\"  maxlength=\"30\" >\n" +
-//            "</td>\n" +
-        "<td>\n" +
-        "<input name=\"\" class=\"form-control vehicleNumber request_item\" type=\"text\" placeholder=\"车牌号\"  maxlength=\"30\" >\n" +
-        "</td>\n" +
-        "<td>\n" +
-        "<input name=\"\" class=\"form-control highSpeedFee fee\" type=\"number\" placeholder=\"高速费\"  maxlength=\"8\" >\n" +
-        "</td>\n" +
-        "<td>\n" +
-        "<input name=\"\" class=\"form-control parkingFee fee\" type=\"number\" placeholder=\"停车费\"  maxlength=\"8\" >\n" +
-        "</td>\n" +
-        "<td>\n" +
-        "<input name=\"\" class=\"form-control etcFee fee\" type=\"number\" placeholder=\"etc\"  maxlength=\"8\" >\n" +
-        "</td>\n" +
-        "<td>\n" +
-        "<input name=\"\" class=\"form-control fuelFee fee\" type=\"number\" placeholder=\"加油费\"  maxlength=\"8\" >\n" +
-        "</td>\n" +
-        "<td>\n" +
-        "<input name=\"\" class=\"form-control dispatcher\" type=\"text\" placeholder=\"调度人\"  maxlength=\"30\" >\n" +
-        "</td>\n" +
-        "<td>\n" +
-        "<input name=\"\" class=\"form-control billFee fee\" type=\"number\" placeholder=\"结账费用\"  maxlength=\"8\" >\n" +
-        "</td>\n" +
-        "<td>\n" +
-        "<input name=\"\" class=\"form-control remark\" type=\"text\" placeholder=\"备注\"  maxlength=\"250\" >\n" +
-        "</td>"
-    /* "<td>\n" +
-     "<input name=\"\" class=\"form-control\" type=\"text\" placeholder=\"请输入司机名称\"  maxlength=\"30\" required>\n" +
-     "</td>\n" +*/
-        "</tr>";
-
-    $(".btn-add-orderVehicleDriver").click(function () {
-        $("#table-OrderVehicleDriver").append($copyHtml);
-        $(".btn-delete-orderVehicleDriver").click(function () {
-            /*if ($("#table-OrderVehicleDriver tbody tr").length <= 1) {
-                $.modal.alertError("至少保留一条信息");
-                return false;
-            }*/
-            $(this).parent().parent().remove();
-        });
-    });
-    $(".btn-delete-orderVehicleDriver").click(function () {
-        /*if ($("#table-OrderVehicleDriver tbody tr").length <= 1) {
-            $.modal.alertError("至少保留一条信息");
-            return false;
-        }*/
-        $(this).parent().parent().remove();
-    });
+    $("#form-order-view input,#form-order-view select,#form-order-view textarea").attr("readonly",true);
 </script>
 </body>
 </html>

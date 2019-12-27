@@ -14,6 +14,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="endArea"    column="end_area"    />
         <result property="orderStatus"    column="order_status"    />
         <result property="billStatus"    column="bill_status"    />
+        <result property="billType"    column="bill_type"    />
+        <result property="billExpense"    column="bill_expense"    />
         <result property="payableStatus"    column="payable_status"    />
         <result property="expectExpense"    column="expect_expense"    />
         <result property="expectStartTime"    column="expect_start_time"    />
@@ -30,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTOrderVo">
-        select id, order_code, user_name, user_telephone, company_name, start_area, end_area, order_status, bill_status, payable_status, expect_expense, expect_start_time, expect_arrival_time, actual_expense,  hign_speed_expense, parking_expense, remark, del_flag, create_by, create_time, update_by, update_time from t_order
+        select id, order_code, user_name, user_telephone, company_name, start_area, end_area, order_status, bill_status,bill_type,bill_expense, payable_status, expect_expense, expect_start_time, expect_arrival_time, actual_expense,  hign_speed_expense, parking_expense, remark, del_flag, create_by, create_time, update_by, update_time from t_order
     </sql>
 
     <select id="selectTOrderList" parameterType="TOrder" resultMap="TOrderResult">
@@ -65,6 +67,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="endArea"    column="end_area"    />
         <result property="orderStatus"    column="order_status"    />
         <result property="billStatus"    column="bill_status"    />
+        <result property="billType"    column="bill_type"    />
+        <result property="billExpense"    column="bill_expense"    />
         <result property="payableStatus"    column="payable_status"    />
         <result property="expectExpense"    column="expect_expense"    />
         <result property="expectStartTime"    column="expect_start_time"    />
@@ -91,9 +95,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <result property="driverName"    column="driver_name"    />
             <result property="driverTelephone"    column="driver_telephone"    />
             <result property="driverIdentityCard"    column="driver_identity_card"    />
+            <result property="highSpeedFee"    column="high_speed_fee"    />
+            <result property="parkingFee"    column="parking_fee"    />
+            <result property="etcFee"    column="etc_fee"    />
+            <result property="fuelFee"    column="fuel_fee"    />
+            <result property="billFee"    column="bill_fee"    />
+            <result property="remark"    column="orderVehicleDriverRemark"    />
         </collection>
     </resultMap>
-    <select id="selectOrderInfoList" parameterType="com.ruoyi.transport.model.OrderInfoRequestModel" resultMap="orderInfoMap">
+    <select id="selectOrderInfoList"  resultMap="orderInfoMap">
       SELECT
             a.id,
             a.order_code,
@@ -104,6 +114,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             a.end_area,
             a.order_status,
             a.bill_status,
+            a.bill_type,
+            a.bill_expense,
             a.payable_status,
             a.expect_expense,
             a.expect_start_time,
@@ -127,9 +139,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             b.vehicle_number,
             b.driver_name,
             b.driver_telephone,
-            b.driver_identity_card
+            b.driver_identity_card,
+            b.high_speed_fee,
+            b.parking_fee,
+            b.etc_fee,
+            b.fuel_fee,
+            b.bill_fee,
+            b.remark orderVehicleDriverRemark
+
         FROM
             t_order a
+        INNER JOIN t_order_time tot on a.id=tot.order_id  AND tot.del_flag = 0
+        LEFT JOIN t_order_vehicle_driver b ON a.id = b.order_id
+        AND b.del_flag = 0
+        where a.del_flag = 0
+        and a.id in
+        <foreach item="item" collection="idList" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectTOrderIdList" parameterType="com.ruoyi.transport.model.OrderInfoRequestModel" resultType="Long">
+        SELECT
+        DISTINCT a.id
+        FROM
+        t_order a
         INNER JOIN t_order_time tot on a.id=tot.order_id  AND tot.del_flag = 0
         LEFT JOIN t_order_vehicle_driver b ON a.id = b.order_id
         AND b.del_flag = 0
@@ -149,7 +183,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="driverName != null  and driverName != ''"> and b.driver_name like concat('%', #{driverName}, '%')</if>
         <if test="driverTelephone != null  and driverTelephone != ''"> and b.driver_telephone = #{driverTelephone}</if>
         <if test="driverIdentityCard != null  and driverIdentityCard != ''"> and b.driver_identity_card = #{driverIdentityCard}</if>
-        order by a.id desc
+        <if test="pStartTime != null  and pStartTime != ''"> and a.expect_start_time > str_to_date(#{pStartTime}, '%Y-%m-%d %H') </if>
+        <if test="pEndTime != null  and pEndTime != ''"> and a.expect_start_time &lt; str_to_date(concat(#{pEndTime},' 23:59:59'), '%Y-%m-%d %H:%i:%s') </if>
+        order by a.expect_start_time desc
     </select>
 
     <select id="selectOrderInfoById" parameterType="Long"  resultMap="orderInfoMap">
@@ -163,6 +199,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         a.end_area,
         a.order_status,
         a.bill_status,
+        a.bill_type,
+        a.bill_expense,
         a.payable_status,
         a.expect_expense,
         a.expect_start_time,
@@ -186,7 +224,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         b.vehicle_number,
         b.driver_name,
         b.driver_telephone,
-        b.driver_identity_card
+        b.driver_identity_card,
+        b.high_speed_fee,
+        b.parking_fee,
+        b.etc_fee,
+        b.fuel_fee,
+        b.bill_fee,
+        b.remark orderVehicleDriverRemark
         FROM
         t_order a
         INNER JOIN t_order_time tot on a.id=tot.order_id  AND tot.del_flag = 0
@@ -207,6 +251,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="endArea != null  and endArea != ''">end_area,</if>
             <if test="orderStatus != null ">order_status,</if>
             <if test="billStatus != null ">bill_status,</if>
+            <if test="billType != null ">bill_type,</if>
+            <if test="billExpense != null ">bill_expense,</if>
             <if test="payableStatus != null ">payable_status,</if>
             <if test="expectExpense != null ">expect_expense,</if>
             <if test="expectStartTime != null ">expect_start_time,</if>
@@ -230,6 +276,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="endArea != null  and endArea != ''">#{endArea},</if>
             <if test="orderStatus != null ">#{orderStatus},</if>
             <if test="billStatus != null ">#{billStatus},</if>
+            <if test="billType != null ">#{billType},</if>
+            <if test="billExpense != null ">#{billExpense},</if>
             <if test="payableStatus != null ">#{payableStatus},</if>
             <if test="expectExpense != null ">#{expectExpense},</if>
             <if test="expectStartTime != null ">#{expectStartTime},</if>
@@ -257,6 +305,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="endArea != null  and endArea != ''">end_area = #{endArea},</if>
             <if test="orderStatus != null ">order_status = #{orderStatus},</if>
             <if test="billStatus != null ">bill_status = #{billStatus},</if>
+            <if test="billType != null ">bill_type = #{billType},</if>
+            <if test="billExpense != null ">bill_expense = #{billExpense},</if>
             <if test="payableStatus != null ">payable_status = #{payableStatus},</if>
             <if test="expectExpense != null ">expect_expense = #{expectExpense},</if>
             <if test="expectStartTime != null ">expect_start_time = #{expectStartTime},</if>
@@ -276,13 +326,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <delete id="deleteTOrderById">
         update t_order
-        SET del_flag=2 and update_by=#{updateBy}
+        SET del_flag=2 , update_by=#{updateBy} , update_time=now()
         where id = #{id}
     </delete>
 
     <delete id="deleteTOrderByIds">
         update t_order
-        SET del_flag=2 and update_by=#{updateBy}
+        SET del_flag=2 , update_by=#{updateBy} , update_time=now()
         where id in
         <foreach item="id" collection="ids" open="(" separator="," close=")">
             #{id}
@@ -292,7 +342,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateTOrderStatus">
         update t_order
         SET
-        update_by=#{updateBy}
+        update_by=#{updateBy}  , update_time=now()
         <if test="orderStatus != null ">order_status = #{orderStatus},</if>
         <if test="billStatus != null ">bill_status = #{billStatus},</if>
         <if test="payableStatus != null ">payable_status = #{payableStatus},</if>

@@ -47,6 +47,104 @@ public class OrderInfoRequestModel extends TOrder {
     @Excel(name = "司机身份证号")
     private String driverIdentityCard;
 
+
+    /** 高速费 */
+    @Excel(name = "高速费")
+    private Double highSpeedFee;
+
+    /** 停车费 */
+    @Excel(name = "停车费")
+    private Double parkingFee;
+
+    /** etc收费 */
+    @Excel(name = "etc收费")
+    private Double etcFee;
+
+    /** 加油费 */
+    @Excel(name = "加油费")
+    private Double fuelFee;
+
+    /** 结账费用 */
+    @Excel(name = "结账费用")
+    private Double billFee;
+
+    /** 备注 */
+    private String remark;
+
+    /** 开始时间 */
+    private String pStartTime;
+
+
+    /** 结束时间 */
+    private String pEndTime;
+
+
+    public String getpStartTime() {
+        return pStartTime;
+    }
+
+    public void setpStartTime(String pStartTime) {
+        this.pStartTime = pStartTime;
+    }
+
+    public String getpEndTime() {
+        return pEndTime;
+    }
+
+    public void setpEndTime(String pEndTime) {
+        this.pEndTime = pEndTime;
+    }
+
+    public Double getHighSpeedFee() {
+        return highSpeedFee;
+    }
+
+    public void setHighSpeedFee(Double highSpeedFee) {
+        this.highSpeedFee = highSpeedFee;
+    }
+
+    public Double getParkingFee() {
+        return parkingFee;
+    }
+
+    public void setParkingFee(Double parkingFee) {
+        this.parkingFee = parkingFee;
+    }
+
+    public Double getEtcFee() {
+        return etcFee;
+    }
+
+    public void setEtcFee(Double etcFee) {
+        this.etcFee = etcFee;
+    }
+
+    public Double getFuelFee() {
+        return fuelFee;
+    }
+
+    public void setFuelFee(Double fuelFee) {
+        this.fuelFee = fuelFee;
+    }
+
+    public Double getBillFee() {
+        return billFee;
+    }
+
+    public void setBillFee(Double billFee) {
+        this.billFee = billFee;
+    }
+
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Long getOrderVehicleDriverId() {
         return orderVehicleDriverId;
     }

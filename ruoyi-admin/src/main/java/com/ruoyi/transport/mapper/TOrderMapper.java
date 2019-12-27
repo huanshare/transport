@@ -36,10 +36,10 @@ public interface TOrderMapper {
     /**
      * 查询订单列表
      *
-     * @param tOrder 订单
+     * @param orderIdList ID列表
      * @return 订单集合
      */
-    public List<OrderDetailModel> selectOrderInfoList(OrderInfoRequestModel tOrder);
+    public List<OrderDetailModel> selectOrderInfoList(@Param("idList") List<Long> orderIdList);
 
 
     /**
@@ -100,4 +100,5 @@ public interface TOrderMapper {
                                                     @Param("endTime")Date endTime);
 
 
+    List<Long> selectTOrderIdList(OrderInfoRequestModel tOrder);
 }

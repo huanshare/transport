@@ -70,6 +70,16 @@ public class TOrder extends BaseEntity {
      */
     @Excel(name = "开票状态", readConverterExp = "0=未开票，1开票中，2已开票")
     private Integer billStatus;
+    /**
+     * 开票状态（1专票，2普票）
+     */
+    @Excel(name = "开票类型", readConverterExp = "1专票，2普票")
+    private Integer billType;
+    /**
+     * 开票状态（0未开票，1开票中，2已开票）
+     */
+    @Excel(name = "开票金额")
+    private Double billExpense;
 
     /**
      * 结算状态（0未结算，1结算中，2已结算）
@@ -99,7 +109,7 @@ public class TOrder extends BaseEntity {
      * 实际费用
      */
     @Excel(name = "实际费用")
-    private Long actualExpense;
+    private Double actualExpense;
 
     /**
      * 高速费
@@ -115,6 +125,22 @@ public class TOrder extends BaseEntity {
      * 删除标志（0代表存在 2代表删除）
      */
     private Integer delFlag;
+
+    public Integer getBillType() {
+        return billType;
+    }
+
+    public void setBillType(Integer billType) {
+        this.billType = billType;
+    }
+
+    public Double getBillExpense() {
+        return billExpense;
+    }
+
+    public void setBillExpense(Double billExpense) {
+        this.billExpense = billExpense;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -220,11 +246,11 @@ public class TOrder extends BaseEntity {
         return expectArrivalTime;
     }
 
-    public void setActualExpense(Long actualExpense) {
+    public void setActualExpense(Double actualExpense) {
         this.actualExpense = actualExpense;
     }
 
-    public Long getActualExpense() {
+    public Double getActualExpense() {
         return actualExpense;
     }
 

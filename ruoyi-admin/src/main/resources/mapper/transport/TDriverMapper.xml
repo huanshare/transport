@@ -86,13 +86,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <delete id="deleteTDriverById">
         update t_driver
-        SET del_flag=2 and update_by=#{updateBy}
+        SET del_flag=2 , update_by=#{updateBy} , update_time=now()
         where id = #{id}
     </delete>
 
     <delete id="deleteTDriverByIds">
         update t_driver
-        SET del_flag=2 and update_by=#{updateBy}
+        SET del_flag=2 , update_by=#{updateBy} , update_time=now()
         where id in
         <foreach item="id" collection="ids" open="(" separator="," close=")">
             #{id}

@@ -97,13 +97,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <delete id="delete${ClassName}ById">
         update ${tableName}
-        SET del_flag=2 and update_by=#{updateBy}
+        SET del_flag=2 , update_by=#{updateBy} , update_time=now()
         where ${pkColumn.columnName} = #{${pkColumn.javaField}}
     </delete>
 
     <delete id="delete${ClassName}ByIds">
         update ${tableName}
-        SET del_flag=2 and update_by=#{updateBy}
+        SET del_flag=2 , update_by=#{updateBy} , update_time=now()
         where ${pkColumn.columnName} in
         <foreach item="${pkColumn.javaField}" collection="${pkColumn.javaField}s" open="(" separator="," close=")">
             #{${pkColumn.javaField}}

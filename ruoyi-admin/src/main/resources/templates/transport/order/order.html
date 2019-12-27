@@ -12,31 +12,31 @@
                         <ul>
                             <li>
                                 <p>订单编号：</p>
-                                <input type="text" name="orderCode"/>
+                                <input type="text" name="orderCode" class="orderSearchForm"/>
                             </li>
                             <li>
                                 <p>客户名：</p>
-                                <input type="text" name="userName"/>
+                                <input type="text" name="userName" class="orderSearchForm"/>
                             </li>
                             <li>
                                 <p>客户手机号：</p>
-                                <input type="text" name="userTelephone"/>
+                                <input type="text" name="userTelephone" class="orderSearchForm"/>
                             </li>
                             <li>
                                 <p>客户公司名：</p>
-                                <input type="text" name="companyName"/>
+                                <input type="text" name="companyName" class="orderSearchForm"/>
                             </li>
-                            <li>
+                            <!--<li>
                                 <p>起始地：</p>
                                 <input type="text" name="startArea"/>
                             </li>
                             <li>
                                 <p>目的地：</p>
                                 <input type="text" name="endArea"/>
-                            </li>
+                            </li>-->
                             <li>
                                 <p>订单状态：</p>
-                                <select name="orderStatus" th:with="type=${@dict.getType('order_status')}">
+                                <select name="orderStatus" th:with="type=${@dict.getType('order_status')}" class="orderSearchForm">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
@@ -50,10 +50,17 @@
                             </li>-->
                             <li>
                                 <p>结算状态：</p>
-                                <select name="payableStatus" th:with="type=${@dict.getType('payable_status')}">
+                                <select name="payableStatus" th:with="type=${@dict.getType('payable_status')}" class="orderSearchForm">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
+                            </li>
+                            <li>
+                                <p>预估时间：</p>
+                                <input name="pStartTime" class="form-control orderSearchForm" placeholder="yyyy-MM-dd" type="text">
+                            </li>
+                            <li>
+                                <input name="pEndTime" class="form-control orderSearchForm" placeholder="yyyy-MM-dd" type="text">
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -65,10 +72,10 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.addFull()" shiro:hasPermission="transport:order:add">
+                <a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="transport:order:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.editFull()" shiro:hasPermission="transport:order:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" shiro:hasPermission="transport:order:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="transport:order:remove">
@@ -106,6 +113,7 @@
          </div><!-- /.modal -->
      </div>
     <th:block th:include="include :: footer" />
+     <th:block th:include="include :: datetimepicker-js"/>
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('transport:order:edit')}]];
         var removeFlag = [[${@permission.hasPermi('transport:order:remove')}]];
@@ -115,15 +123,19 @@
         var prefix = ctx + "transport/order";
 
         $(function() {
+            var h = $(window).height() - 140;
             var options = {
+                height:h,
                 url: prefix + "/list",
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
+                viewUrl: prefix + "/view/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 modalName: "订单",
+                striped : true, // 设置为true会有隔行变色效果
                 fixedColumns: true,
-                fixedNumber: 7,
+                fixedNumber: 5,
                 columns: [{
                     checkbox: true
                 },
@@ -134,7 +146,12 @@
                 },
                 {
                     field : 'orderCode', 
-                    title : '订单编号'
+                    title : '订单编号',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a  href="javascript:void(0)" onclick="$.operate.viewTab(\'('+row.userName+')'+row.orderCode+'\',\'' + row.id + '\')"><i class="fa fa-view"></i>'+row.orderCode+'</a> ');
+                        return actions.join('');
+                    }
                 },
                 {
                     field : 'userName', 
@@ -146,16 +163,18 @@
                 },
                 {
                     field : 'companyName', 
-                    title : '客户公司名称'
+                    title : '客户公司名称',
+                    visible: false
                 },
                 {
                     field : 'startArea', 
-                    title : '起始地'
+                    title : '起始地',
+                    visible: false
                 },
-                {
+                /*{
                     field : 'endArea', 
                     title : '目的地'
-                },
+                },*/
                 {
                     field : 'orderStatus', 
                     title : '订单状态',
@@ -163,13 +182,13 @@
                        return $.table.selectDictLabel(orderStatusDatas, value);
                     }
                 },
-               /* {
+                {
                     field : 'billStatus', 
                     title : '开票状态',
                     formatter: function(value, row, index) {
                        return $.table.selectDictLabel(billStatusDatas, value);
                     }
-                },*/
+                },
                 {
                     field : 'payableStatus', 
                     title : '结算状态',
@@ -183,10 +202,12 @@
                     formatter: function(value, row, index) {
                         var orderVehicleDriverHtml="";
                         if (null != row.orderVehicleDriverList && row.orderVehicleDriverList.length > 0) {
+                            orderVehicleDriverHtml+="<table class=\&quot;orderVehicleDriver_table\&quot;>";
                             $.each(row.orderVehicleDriverList, function (i,item) {
-                                orderVehicleDriverHtml += "<aa>* 司机名称：" + item.driverName + "，司机手机号：" + item.driverTelephone + "，车牌号：" + item.vehicleNumber + "；</aa><br/>";
+                                orderVehicleDriverHtml += "<tr><td>* 司机名称：" + item.driverName + "</td><td>司机手机号：" + item.driverTelephone + "</td><td>车牌号：" + item.vehicleNumber + "</td>";
                             });
-                            return "<a onclick=\"showOrderVehicleDriver('"+orderVehicleDriverHtml+"')\">查看车辆</a>";
+                            orderVehicleDriverHtml+="</table>";
+                            return "<a onclick=\"showOrderVehicleDriver('"+orderVehicleDriverHtml+" ')\">查看车辆</a>";
                         }
                         return "暂无信息";
 
@@ -198,11 +219,23 @@
                 },
                 {
                     field : 'expectStartTime', 
-                    title : '预计出发时间'
+                    title : '预计出发时间',
+                    formatter: function(value, row, index) {
+                        if(value==null||value==""){
+                            return "";
+                        }
+                        return value.substring(0,value.length-6)+"时";
+                    }
                 },
                 {
                     field : 'expectArrivalTime', 
-                    title : '预计到达时间'
+                    title : '预计到达时间',
+                    formatter: function(value, row, index) {
+                        if(value==null||value==""){
+                            return "";
+                        }
+                        return value.substring(0,value.length-6)+"时";
+                    }
                 },
                 {
                     field : 'actualExpense', 
@@ -210,15 +243,33 @@
                 },
                 {
                     field : 'orderStartTime',
-                    title : '实际出发时间'
+                    title : '实际出发时间',
+                    formatter: function(value, row, index) {
+                        if(value==null||value==""){
+                            return "";
+                        }
+                        return value.substring(0,value.length-6)+"时";
+                    }
                 },
                 {
                     field : 'orderArriveTime',
-                    title : '实际到达时间'
+                    title : '实际到达时间',
+                    formatter: function(value, row, index) {
+                        if(value==null||value==""){
+                            return "";
+                        }
+                        return value.substring(0,value.length-6)+"时";
+                    }
                 },
                 {
                     field : 'orderPayTime',
-                    title : '实际到达时间'
+                    title : '付款时间',
+                    formatter: function(value, row, index) {
+                        if(value==null||value==""){
+                            return "";
+                        }
+                        return value.substring(0,value.length-6)+"时";
+                    }
                 },
                 {
                     field : 'createBy', 
@@ -233,23 +284,49 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editFull(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editTab(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
                 }]
             };
             $.table.init(options);
+
+            $("input[name='pStartTime']").datetimepicker({
+                format: "yyyy-mm-dd",
+                minView: "month",
+                autoclose: true
+            }).on('changeDate', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                var startTime = event.date;
+                $("input[name='pEndTime']").datetimepicker('setStartDate', startTime);
+            });
+
+            $("input[name='pEndTime']").datetimepicker({
+                format: "yyyy-mm-dd",
+                minView: "month",
+                autoclose: true
+            }).on('changeDate', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                var endTime = event.date;
+                $("input[name='pStartTime']").datetimepicker('setEndDate', endTime);
+            });
         });
 
         function showOrderVehicleDriver(detail){
-            layer.open({
+            var index = layer.open({
                 type: 1,
+                title:'司机车辆信息',
                 closeBtn: 1, //不显示关闭按钮
                 anim: 2,
                 shadeClose: true, //开启遮罩关闭
                 fix: false,
                 content:"<div style='padding:20px;line-height:30px;'>"+detail+"</div>"
+            });
+            layer.style(index, {
+                width: '500px'
             });
             //layer.msg(detail, { icon: $.modal.icon(1), shift: 5 });
         }

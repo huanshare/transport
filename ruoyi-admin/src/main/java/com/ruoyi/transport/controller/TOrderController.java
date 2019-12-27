@@ -47,8 +47,9 @@ public class TOrderController extends BaseController {
     @ResponseBody
     public TableDataInfo list(OrderInfoRequestModel tOrder) {
         startPage();
-        List<OrderDetailModel> list = tOrderService.selectTOrderList(tOrder);
-        return getDataTable(list);
+        List<Long> list = tOrderService.selectTOrderIdList(tOrder);
+        List<OrderDetailModel> newList=tOrderService.selectTOrderList(list);
+        return getDataTable(list,newList);
     }
 
     /**
@@ -59,9 +60,11 @@ public class TOrderController extends BaseController {
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(OrderInfoRequestModel tOrder) {
-        List<OrderDetailModel> list = tOrderService.selectTOrderList(tOrder);
+        startPage();
+        List<Long> list = tOrderService.selectTOrderIdList(tOrder);
+        List<OrderDetailModel> newList=tOrderService.selectTOrderList(list);
         ExcelUtil<OrderDetailModel> util = new ExcelUtil<>(OrderDetailModel.class);
-        return util.exportExcel(list, "order");
+        return util.exportExcel(newList, "order");
     }
 
     /**
@@ -93,6 +96,16 @@ public class TOrderController extends BaseController {
         OrderDetailModel tOrder = tOrderService.selectTOrderById(id);
         mmap.put("tOrder", tOrder);
         return prefix + "/edit";
+    }
+
+    /**
+     * 修改订单
+     */
+    @GetMapping("/view/{id}")
+    public String view(@PathVariable("id") Long id, ModelMap mmap) {
+        OrderDetailModel tOrder = tOrderService.selectTOrderById(id);
+        mmap.put("tOrder", tOrder);
+        return prefix + "/view";
     }
 
     /**

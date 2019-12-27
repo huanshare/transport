@@ -990,6 +990,11 @@ var table = {
             	table.set();
             	$.modal.openTab("修改" + table.options.modalName, $.operate.editUrl(id));
             },
+            // 查看信息，以tab页展现
+            viewTab: function(title,id) {
+                table.set();
+                $.modal.openTab(title, $.operate.viewUrl(id));
+            },
             // 修改信息 全屏
             editFull: function(id) {
             	table.set();
@@ -1015,6 +1020,21 @@ var table = {
             		}
             	    url = table.options.updateUrl.replace("{id}", id);
             	}
+                return url;
+            },
+            // 修改访问地址
+            viewUrl: function(id) {
+                var url = "/404.html";
+                if ($.common.isNotEmpty(id)) {
+                    url = table.options.viewUrl.replace("{id}", id);
+                } else {
+                    var id = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
+                    if (id.length == 0) {
+                        $.modal.alertWarning("请至少选择一条记录");
+                        return;
+                    }
+                    url = table.options.viewUrl.replace("{id}", id);
+                }
                 return url;
             },
             // 保存信息 刷新表格

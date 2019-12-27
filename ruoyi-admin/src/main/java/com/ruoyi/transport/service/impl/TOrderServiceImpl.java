@@ -65,13 +65,25 @@ public class TOrderServiceImpl implements ITOrderService {
     /**
      * 查询订单列表
      *
+     * @param orderIdList 订单
+     * @return 订单
+     */
+    @Override
+    public List<OrderDetailModel> selectTOrderList(List<Long> orderIdList) {
+        return tOrderMapper.selectOrderInfoList(orderIdList);
+    }
+
+    /**
+     * 查询订单列表
+     *
      * @param tOrder 订单
      * @return 订单
      */
     @Override
-    public List<OrderDetailModel> selectTOrderList(OrderInfoRequestModel tOrder) {
-        return tOrderMapper.selectOrderInfoList(tOrder);
+    public List<Long> selectTOrderIdList(OrderInfoRequestModel tOrder) {
+        return tOrderMapper.selectTOrderIdList(tOrder);
     }
+
 
     /**
      * 新增订单
@@ -183,7 +195,7 @@ public class TOrderServiceImpl implements ITOrderService {
                 orderVehicleDriver.setUpdateBy(orderDetailModel.getUpdateBy());
                 tOrderVehicleDriverMapper.insertTOrderVehicleDriver(orderVehicleDriver);
 
-                //完善司机表
+                /*//完善司机表
                 if(StringUtils.isNotEmpty(item.getDriverTelephone())){
                     TDriver params=new TDriver();
                     params.setDriverTelephone(item.getDriverTelephone());
@@ -213,7 +225,7 @@ public class TOrderServiceImpl implements ITOrderService {
                         tVehicle.setUpdateBy(orderDetailModel.getUpdateBy());
                         tVehicleMapper.insertTVehicle(tVehicle);
                     }
-                }
+                }*/
             });
         }
 

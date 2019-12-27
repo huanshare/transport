@@ -1,267 +1,387 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="include :: header('新增订单')" />
-    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: header('新增订单')"/>
+    <th:block th:include="include :: datetimepicker-css"/>
 </head>
-<body class="white-bg">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-order-add">
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">客户名：</label>
-                <div class="col-sm-8">
-                    <input name="userName" class="form-control" type="text" placeholder="请输入客户名"  maxlength="30" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">客户手机号：</label>
-                <div class="col-sm-8">
-                    <input name="userTelephone" class="form-control" type="text" placeholder="请输入客户手机号"  maxlength="30" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">客户公司名：</label>
-                <div class="col-sm-8">
-                    <input name="companyName" class="form-control" type="text" placeholder="请输入客户公司名"  maxlength="30" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">起始地：</label>
-                <div class="col-sm-8">
-                    <input name="startArea" class="form-control" type="text" placeholder="请输入起始地"  maxlength="60" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">目的地：</label>
-                <div class="col-sm-8">
-                    <input name="endArea" class="form-control" type="text" placeholder="请输入目的地"  maxlength="60" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">预计费用：</label>
-                <div class="col-sm-8">
-                    <input name="expectExpense" class="form-control" type="number" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">预计出发时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="expectStartTime" class="form-control" placeholder="yyyy-MM-dd hh" type="text" required>
+<body>
+<div class="wrapper wrapper-content animated fadeInRight ibox-content gray-bg">
+    <form class="form-horizontal m" id="form-order-add">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>客户信息</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">客户名：</label>
+                            <div class="col-sm-8">
+                                <input name="userName" class="form-control" type="text" placeholder="请输入客户名"
+                                       maxlength="30" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">客户手机号：</label>
+                            <div class="col-sm-8">
+                                <input name="userTelephone" class="form-control" type="text" placeholder="请输入客户手机号"
+                                       maxlength="30">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">客户公司名：</label>
+                            <div class="col-sm-8">
+                                <input name="companyName" class="form-control" type="text" placeholder="请输入客户公司名"
+                                       maxlength="30">
+                            </div>
+                        </div>
+                        <div  class="form-group" style="height: 34px;">
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">预计到达时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="expectArrivalTime" class="form-control" placeholder="yyyy-MM-dd hh" type="text" required>
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>行程预估</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">行程：</label>
+                            <div class="col-sm-8">
+                                <input name="startArea" class="form-control" type="text" placeholder="请输入行程"
+                                       maxlength="60">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">预计费用：</label>
+                            <div class="col-sm-8">
+                                <input name="expectExpense" class="form-control" type="number" placeholder="请填写预计费用"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">预计出发时间：</label>
+                            <div class="col-sm-8">
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input name="expectStartTime" class="form-control" placeholder="yyyy-MM-dd hh"
+                                           type="text"
+                                           required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">预计到达时间：</label>
+                            <div class="col-sm-8">
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input name="expectArrivalTime" class="form-control" placeholder="yyyy-MM-dd hh"
+                                           type="text"
+                                           required>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!--<div class="form-group">
-                <label class="col-sm-3 control-label">实际费用：</label>
-                <div class="col-sm-8">
-                    <input name="actualExpense" class="form-control" type="number" >
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">实际出发时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="orderStartTime" class="form-control" placeholder="yyyy-MM-dd hh" type="text" >
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>备注</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <textarea name="remark" style="width: 100%;height:100px;"></textarea>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">实际到达时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="orderArriveTime" class="form-control" placeholder="yyyy-MM-dd hh" type="text" >
+        </div>
+        <!--<div class="form-group">
+            <label class="col-sm-3 control-label">实际费用：</label>
+            <div class="col-sm-8">
+                <input name="actualExpense" class="form-control" type="number" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">实际出发时间：</label>
+            <div class="col-sm-8">
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input name="orderStartTime" class="form-control" placeholder="yyyy-MM-dd hh" type="text" >
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">实际到达时间：</label>
+            <div class="col-sm-8">
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input name="orderArriveTime" class="form-control" placeholder="yyyy-MM-dd hh" type="text" >
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">高速费：</label>
+            <div class="col-sm-8">
+                <input name="hignSpeedExpense" class="form-control" type="number">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">停车费：</label>
+            <div class="col-sm-8">
+                <input name="parkingExpense" class="form-control" type="number">
+            </div>
+        </div>-->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>司机车辆信息</h5>
                     </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">高速费：</label>
-                <div class="col-sm-8">
-                    <input name="hignSpeedExpense" class="form-control" type="number">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">停车费：</label>
-                <div class="col-sm-8">
-                    <input name="parkingExpense" class="form-control" type="number">
-                </div>
-            </div>-->
-            <div class="form-group">
-                <table id="table-OrderVehicleDriver">
-                    <thead class="tr-copy">
-                        <td>司机姓名</td>
-                        <td>司机手机号</td>
-                        <td>司机身份证号</td>
-                        <td>车牌号</td>
-                        <td>调度人</td>
-                        <!--<td>外调车</td>-->
-                        <td>
-                            <button type="button" class="btn btn-outline btn-primary btn-add-orderVehicleDriver">新增</button>
-                        </td>
-                    </thead>
-                    <tbody id="tBody-orderVehicleDriver">
-                        <tr class="tr-copy">
-                            <td>
-                                <input name="" class="form-control driverName request_item" type="text" placeholder="请输入司机名称"  maxlength="30" required>
-                            </td>
-                            <td>
-                                <input name="" class="form-control driverTelephone  request_item" type="text" placeholder="请输入司机手机号"  maxlength="30" required>
-                            </td>
-                            <td>
-                                <input name="" class="form-control driverIdentityCard" type="text" placeholder="请输入司机身份证号"  maxlength="30" >
-                            </td>
-                            <td>
-                                <input name="" class="form-control vehicleNumber request_item" type="text" placeholder="请输入车牌号"  maxlength="30" required>
-                            </td>
-                            <td>
-                                <input name="" class="form-control dispatcher" type="text" placeholder="请输入调度人"  maxlength="30" >
-                            </td>
-                            <!--<td>-->
-                                <!--<input name="" class="form-control" type="text" placeholder="请输入司机名称"  maxlength="30" required>-->
-                            <!--</td>-->
-                            <td>
-                                <button type="button" class="btn btn-outline btn-danger btn-delete-orderVehicleDriver">删除</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </form>
-    </div>
-    <th:block th:include="include :: footer" />
-    <th:block th:include="include :: datetimepicker-js" />
-    <script type="text/javascript">
-        var prefix = ctx + "transport/order";
-        $("#form-order-add").validate({
-            focusCleanup: true
-        });
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <table id="table-OrderVehicleDriver" style="width:100%">
+                                <thead class="tr-copy">
+                                <td>
+                                    <button type="button" class="btn btn-outline btn-primary btn-add-orderVehicleDriver">新增
+                                    </button>
+                                </td>
+                                <td>司机姓名</td>
+                                <td>司机手机号</td>
+                                <!--<td>司机身份证号</td>-->
+                                <td>车牌号</td>
+                                <td>高速费</td>
+                                <td>停车费</td>
+                                <td>etc</td>
+                                <td>加油</td>
+                                <td>调度</td>
+                                <td>结账</td>
+                                <td>备注</td>
+                                <!--<td>外调车</td>-->
 
-        function submitHandler() {
-            if ($.validate.form()) {
-                var formData=$('#form-order-add').serializeJson();
-                var orderVehicleDriverList=[];
-                if(formData.expectStartTime!=""){
-                    formData.expectStartTime=formData.expectStartTime+":00:00";
-                }
-                if(formData.expectArrivalTime!=""){
-                    formData.expectArrivalTime=formData.expectArrivalTime+":00:00";
-                }
-                /*if(formData.orderStartTime!=""){
-                    formData.orderStartTime=formData.orderStartTime+":00:00";
-                }
-                if(formData.orderArriveTime!=""){
-                    formData.orderArriveTime=formData.orderArriveTime+":00:00";
-                }*/
-                $("#table-OrderVehicleDriver tbody tr").each(function(index, value){
-                    var orderVehicleDriver={};
-                    orderVehicleDriver.driverName=$(this).find(".driverName").val();
-                    orderVehicleDriver.driverTelephone=$(this).find(".driverTelephone").val();
-                    orderVehicleDriver.driverIdentityCard=$(this).find(".driverIdentityCard").val();
-                    orderVehicleDriver.vehicleNumber=$(this).find(".vehicleNumber").val();
-                    orderVehicleDriver.dispatcher=$(this).find(".dispatcher").val();
-                    orderVehicleDriverList.push(orderVehicleDriver);
-                });
-                formData.orderVehicleDriverList=orderVehicleDriverList;
-                $.operate.savePost(prefix + "/add",JSON.stringify(formData));
+                                </thead>
+                                <tbody id="tBody-orderVehicleDriver">
+                                <!--<tr class="tr-copy">
+                                    <td>
+                                        <button type="button" class="btn btn-outline btn-danger btn-delete-orderVehicleDriver">
+                                            删除
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <input name="" class="form-control driverName request_item" type="text"
+                                               placeholder="司机名称" maxlength="30" required>
+                                    </td>
+                                    <td>
+                                        <input name="" class="form-control driverTelephone  request_item" type="text"
+                                               placeholder="司机手机号" maxlength="30">
+                                    </td>
+                                    &lt;!&ndash; <td>
+                                         <input name="" class="form-control driverIdentityCard" type="text" placeholder="请输入司机身份证号"  maxlength="30" >
+                                     </td>&ndash;&gt;
+                                    <td>
+                                        <input name="" class="form-control vehicleNumber request_item" type="text"
+                                               placeholder="车牌号" maxlength="30">
+                                    </td>
+                                    <td>
+                                        <input name="" class="form-control highSpeedFee fee" type="number" placeholder="高速费"
+                                               maxlength="8">
+                                    </td>
+                                    <td>
+                                        <input name="" class="form-control parkingFee fee" type="number" placeholder="停车费"
+                                               maxlength="8">
+                                    </td>
+                                    <td>
+                                        <input name="" class="form-control etcFee fee" type="number" placeholder="etc"
+                                               maxlength="8">
+                                    </td>
+                                    <td>
+                                        <input name="" class="form-control fuelFee fee" type="number" placeholder="加油费"
+                                               maxlength="8">
+                                    </td>
+                                    <td>
+                                        <input name="" class="form-control dispatcher " type="text" placeholder="调度人"
+                                               maxlength="30">
+                                    </td>
+                                    <td>
+                                        <input name="" class="form-control billFee fee" type="number" placeholder="结账费用"
+                                               maxlength="8">
+                                    </td>
+                                    <td>
+                                        <input name="" class="form-control remark" type="text" placeholder="备注" maxlength="250">
+                                    </td>
+                                    &lt;!&ndash;<td>&ndash;&gt;
+                                    &lt;!&ndash;<input name="" class="form-control" type="text" placeholder="请输入司机名称"  maxlength="30" required>&ndash;&gt;
+                                    &lt;!&ndash;</td>&ndash;&gt;
+
+                                </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group" style="text-align: center">
+            <a class="btn btn-primary btn-save btn-sm" id="btnSave">&nbsp;保存全部&nbsp;</a>
+        </div>
+    </form>
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: datetimepicker-js"/>
+<script type="text/javascript">
+    var prefix = ctx + "transport/order";
+    $("#form-order-add").validate({
+        focusCleanup: true
+    });
+    $("#btnSave").click(function () {
+        submitHandler();
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var formData = $('#form-order-add').serializeJson();
+            var orderVehicleDriverList = [];
+            if (formData.expectStartTime != "") {
+                formData.expectStartTime = formData.expectStartTime + ":00:00";
             }
-        }
+            if (formData.expectArrivalTime != "") {
+                formData.expectArrivalTime = formData.expectArrivalTime + ":00:00";
+            }
+            /*if(formData.orderStartTime!=""){
+             formData.orderStartTime=formData.orderStartTime+":00:00";
+             }
+             if(formData.orderArriveTime!=""){
+             formData.orderArriveTime=formData.orderArriveTime+":00:00";
+             }*/
+            $("#table-OrderVehicleDriver tbody tr").each(function (index, value) {
+                var orderVehicleDriver = {};
+                orderVehicleDriver.driverName = $(this).find(".driverName").val();
+                orderVehicleDriver.driverTelephone = $(this).find(".driverTelephone").val();
+                //orderVehicleDriver.driverIdentityCard=$(this).find(".driverIdentityCard").val();
+                orderVehicleDriver.vehicleNumber = $(this).find(".vehicleNumber").val();
+                orderVehicleDriver.highSpeedFee = $(this).find(".highSpeedFee").val();
+                orderVehicleDriver.parkingFee = $(this).find(".parkingFee").val();
+                orderVehicleDriver.etcFee = $(this).find(".etcFee").val();
+                orderVehicleDriver.fuelFee = $(this).find(".fuelFee").val();
+                orderVehicleDriver.dispatcher = $(this).find(".dispatcher").val();
+                orderVehicleDriver.billFee = $(this).find(".billFee").val();
+                orderVehicleDriver.remark = $(this).find(".remark").val();
 
-        $("input[name='expectStartTime']").datetimepicker({
-            format: "yyyy-mm-dd hh",
-            minView: "day",
-            autoclose: true
-        }).on('changeDate', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var startTime = event.date;
-            $("input[name='expectArrivalTime']").datetimepicker('setStartDate', startTime);
-        });
-
-        $("input[name='expectArrivalTime']").datetimepicker({
-            format: "yyyy-mm-dd hh",
-            minView: "day",
-            autoclose: true
-        }).on('changeDate', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var endTime = event.date;
-            $("input[name='expectStartTime']").datetimepicker('setEndDate', endTime);
-        });
-
-       /* $("input[name='orderStartTime']").datetimepicker({
-            format: "yyyy-mm-dd hh",
-            minView: "day",
-            autoclose: true
-        }).on('changeDate', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var startTime = event.date;
-            $("input[name='orderArriveTime']").datetimepicker('setStartDate', startTime);
-        });
-
-        $("input[name='orderArriveTime']").datetimepicker({
-            format: "yyyy-mm-dd hh" ,
-            minView: "day",
-            autoclose: true
-        }).on('changeDate', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var endTime = event.date;
-            $("input[name='orderStartTime']").datetimepicker('setEndDate', endTime);
-        });*/
-
-         var $copyHtml="<tr class=\"tr-copy\">\n" +
-            "\t<td>\n" +
-            "\t\t<input name=\"\" class=\"form-control  driverName request_item\" type=\"text\" placeholder=\"请输入司机名称\"  maxlength=\"30\" required>\n" +
-            "\t</td>\n" +
-            "\t<td>\n" +
-            "\t\t<input name=\"\" class=\"form-control  driverTelephone request_item\" type=\"text\" placeholder=\"请输入司机手机号\"  maxlength=\"30\" required>\n" +
-            "\t</td>\n" +
-            "\t<td>\n" +
-            "\t\t<input name=\"\" class=\"form-control driverIdentityCard \" type=\"text\" placeholder=\"请输入司机身份证号\"  maxlength=\"30\" >\n" +
-            "\t</td>\n" +
-            "\t<td>\n" +
-            "\t\t<input name=\"\" class=\"form-control vehicleNumber request_item\" type=\"text\" placeholder=\"请输入车牌号\"  maxlength=\"30\" required>\n" +
-            "\t</td>\n" +
-            "\t<td>\n" +
-            "\t\t<input name=\"\" class=\"form-control dispatcher\" type=\"text\" placeholder=\"请输入调度人\"  maxlength=\"30\" >\n" +
-            "\t</td>\n" +
-           /* "\t<td>\n" +
-            "\t\t<input name=\"\" class=\"form-control\" type=\"text\" placeholder=\"请输入司机名称\"  maxlength=\"30\" required>\n" +
-            "\t</td>\n" +*/
-            "\t<td>\n" +
-            "\t\t<button type=\"button\" class=\"btn btn-outline btn-danger btn-delete-orderVehicleDriver\">删除</button>\n" +
-            "\t</td>\n" +
-            "</tr>";
-
-        $(".btn-add-orderVehicleDriver").click(function(){
-            $("#table-OrderVehicleDriver").append($copyHtml);
-            $(".btn-delete-orderVehicleDriver").click(function(){
-                if($("#table-OrderVehicleDriver tbody tr").length<=1){
-                    $.modal.alertError("至少保留一条信息");
-                    return false;
-                }
-                $(this).parent().parent().remove();
+                orderVehicleDriverList.push(orderVehicleDriver);
             });
-        });
-        $(".btn-delete-orderVehicleDriver").click(function(){
-            if($("#table-OrderVehicleDriver tbody tr").length<=1){
+            formData.orderVehicleDriverList = orderVehicleDriverList;
+            $.operate.savePost(prefix + "/add", JSON.stringify(formData));
+        }
+    }
+
+    $("input[name='expectStartTime']").datetimepicker({
+        format: "yyyy-mm-dd hh",
+        minView: "day",
+        autoclose: true
+    }).on('changeDate', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var startTime = event.date;
+        $("input[name='expectArrivalTime']").datetimepicker('setStartDate', startTime);
+    });
+
+    $("input[name='expectArrivalTime']").datetimepicker({
+        format: "yyyy-mm-dd hh",
+        minView: "day",
+        autoclose: true
+    }).on('changeDate', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var endTime = event.date;
+        $("input[name='expectStartTime']").datetimepicker('setEndDate', endTime);
+    });
+
+    /* $("input[name='orderStartTime']").datetimepicker({
+     format: "yyyy-mm-dd hh",
+     minView: "day",
+     autoclose: true
+     }).on('changeDate', function(event) {
+     event.preventDefault();
+     event.stopPropagation();
+     var startTime = event.date;
+     $("input[name='orderArriveTime']").datetimepicker('setStartDate', startTime);
+     });
+
+     $("input[name='orderArriveTime']").datetimepicker({
+     format: "yyyy-mm-dd hh" ,
+     minView: "day",
+     autoclose: true
+     }).on('changeDate', function(event) {
+     event.preventDefault();
+     event.stopPropagation();
+     var endTime = event.date;
+     $("input[name='orderStartTime']").datetimepicker('setEndDate', endTime);
+     });*/
+
+    var $copyHtml = "<tr class=\"tr-copy\">\n" +
+        "<td>\n" +
+        "<button type=\"button\" class=\"btn btn-outline btn-danger btn-delete-orderVehicleDriver\">删除</button>\n" +
+        "</td>\n" +
+        "<td>\n" +
+        "<input name=\"\" class=\"form-control  driverName request_item\" type=\"text\" placeholder=\"司机名称\"  maxlength=\"30\" required>\n" +
+        "</td>\n" +
+        "<td>\n" +
+        "<input name=\"\" class=\"form-control  driverTelephone request_item\" type=\"text\" placeholder=\"司机手机号\"  maxlength=\"30\" >\n" +
+        "</td>\n" +
+//            "<td>\n" +
+//            "<input name=\"\" class=\"form-control driverIdentityCard \" type=\"text\" placeholder=\"司机身份证号\"  maxlength=\"30\" >\n" +
+//            "</td>\n" +
+        "<td>\n" +
+        "<input name=\"\" class=\"form-control vehicleNumber request_item\" type=\"text\" placeholder=\"车牌号\"  maxlength=\"30\" >\n" +
+        "</td>\n" +
+        "<td>\n" +
+        "<input name=\"\" class=\"form-control highSpeedFee fee\" type=\"number\" placeholder=\"高速费\"  maxlength=\"8\" >\n" +
+        "</td>\n" +
+        "<td>\n" +
+        "<input name=\"\" class=\"form-control parkingFee fee\" type=\"number\" placeholder=\"停车费\"  maxlength=\"8\" >\n" +
+        "</td>\n" +
+        "<td>\n" +
+        "<input name=\"\" class=\"form-control etcFee fee\" type=\"number\" placeholder=\"etc\"  maxlength=\"8\" >\n" +
+        "</td>\n" +
+        "<td>\n" +
+        "<input name=\"\" class=\"form-control fuelFee fee\" type=\"number\" placeholder=\"加油费\"  maxlength=\"8\" >\n" +
+        "</td>\n" +
+        "<td>\n" +
+        "<input name=\"\" class=\"form-control dispatcher\" type=\"text\" placeholder=\"调度人\"  maxlength=\"30\" >\n" +
+        "</td>\n" +
+        "<td>\n" +
+        "<input name=\"\" class=\"form-control billFee fee\" type=\"number\" placeholder=\"结账费用\"  maxlength=\"8\" >\n" +
+        "</td>\n" +
+        "<td>\n" +
+        "<input name=\"\" class=\"form-control remark\" type=\"text\" placeholder=\"备注\"  maxlength=\"250\" >\n" +
+        "</td>"
+    /* "<td>\n" +
+     "<input name=\"\" class=\"form-control\" type=\"text\" placeholder=\"请输入司机名称\"  maxlength=\"30\" required>\n" +
+     "</td>\n" +*/
+
+    "</tr>";
+
+    $(".btn-add-orderVehicleDriver").click(function () {
+        $("#table-OrderVehicleDriver").append($copyHtml);
+        $(".btn-delete-orderVehicleDriver").click(function () {
+            /*if ($("#table-OrderVehicleDriver tbody tr").length <= 1) {
                 $.modal.alertError("至少保留一条信息");
                 return false;
-            }
+            }*/
             $(this).parent().parent().remove();
         });
-    </script>
+    });
+    $(".btn-delete-orderVehicleDriver").click(function () {
+        /*if ($("#table-OrderVehicleDriver tbody tr").length <= 1) {
+            $.modal.alertError("至少保留一条信息");
+            return false;
+        }*/
+        $(this).parent().parent().remove();
+    });
+</script>
 </body>
 </html>

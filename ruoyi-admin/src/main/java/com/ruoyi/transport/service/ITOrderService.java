@@ -24,10 +24,18 @@ public interface ITOrderService {
     /**
      * 查询订单列表
      *
+     * @param orderIdList 订单
+     * @return 订单集合
+     */
+    public List<OrderDetailModel> selectTOrderList(List<Long> orderIdList);
+
+    /**
+     * 查询订单列表
+     *
      * @param tOrder 订单
      * @return 订单集合
      */
-    public List<OrderDetailModel> selectTOrderList(OrderInfoRequestModel tOrder);
+    public List<Long> selectTOrderIdList(OrderInfoRequestModel tOrder);
 
     /**
      * 新增订单

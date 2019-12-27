@@ -13,6 +13,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="driverName"    column="driver_name"    />
         <result property="driverTelephone"    column="driver_telephone"    />
         <result property="driverIdentityCard"    column="driver_identity_card"    />
+        <result property="highSpeedFee"    column="high_speed_fee"    />
+        <result property="parkingFee"    column="parking_fee"    />
+        <result property="etcFee"    column="etc_fee"    />
+        <result property="fuelFee"    column="fuel_fee"    />
+        <result property="billFee"    column="bill_fee"    />
         <result property="remark"    column="remark"    />
         <result property="delFlag"    column="del_flag"    />
         <result property="createBy"    column="create_by"    />
@@ -22,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTOrderVehicleDriverVo">
-        select id, order_id, dispatcher, outside_car, vehicle_number, driver_name, driver_telephone, driver_identity_card, remark, del_flag, create_by, create_time, update_by, update_time from t_order_vehicle_driver
+        select id, order_id, dispatcher, outside_car, vehicle_number, driver_name, driver_telephone, driver_identity_card, high_speed_fee, parking_fee, etc_fee, fuel_fee, bill_fee, remark, del_flag, create_by, create_time, update_by, update_time from t_order_vehicle_driver
     </sql>
 
     <select id="selectTOrderVehicleDriverList" parameterType="TOrderVehicleDriver" resultMap="TOrderVehicleDriverResult">
@@ -34,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="outsideCar != null  and outsideCar != ''"> and outside_car = #{outsideCar}</if>
             <if test="vehicleNumber != null  and vehicleNumber != ''"> and vehicle_number = #{vehicleNumber}</if>
             <if test="driverName != null  and driverName != ''"> and driver_name like concat('%', #{driverName}, '%')</if>
-            <if test="driverTelephone != null  and driverTelephone != ''"> and driver_telephone = #{driverTelephone}</if>
+            <if test="driverTelephone != null  and driverTelephone != ''"> and driver_telephone like concat('%', #{driverTelephone}, '%')</if>
             <if test="driverIdentityCard != null  and driverIdentityCard != ''"> and driver_identity_card = #{driverIdentityCard}</if>
         </where>
         order by id desc
@@ -45,10 +50,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id} and del_flag=0
     </select>
         
-    <insert id="insertTOrderVehicleDriver" parameterType="TOrderVehicleDriver">
+    <insert id="insertTOrderVehicleDriver" parameterType="TOrderVehicleDriver" useGeneratedKeys="true" keyProperty="id">
         insert into t_order_vehicle_driver
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null ">id,</if>
             <if test="orderId != null ">order_id,</if>
             <if test="dispatcher != null  and dispatcher != ''">dispatcher,</if>
             <if test="outsideCar != null  and outsideCar != ''">outside_car,</if>
@@ -56,15 +60,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="driverName != null  and driverName != ''">driver_name,</if>
             <if test="driverTelephone != null  and driverTelephone != ''">driver_telephone,</if>
             <if test="driverIdentityCard != null  and driverIdentityCard != ''">driver_identity_card,</if>
+            <if test="highSpeedFee != null ">high_speed_fee,</if>
+            <if test="parkingFee != null ">parking_fee,</if>
+            <if test="etcFee != null ">etc_fee,</if>
+            <if test="fuelFee != null ">fuel_fee,</if>
+            <if test="billFee != null ">bill_fee,</if>
             <if test="remark != null  and remark != ''">remark,</if>
-            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="delFlag != null ">del_flag,</if>
             <if test="createBy != null  and createBy != ''">create_by,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="updateBy != null  and updateBy != ''">update_by,</if>
             <if test="updateTime != null ">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null ">#{id},</if>
             <if test="orderId != null ">#{orderId},</if>
             <if test="dispatcher != null  and dispatcher != ''">#{dispatcher},</if>
             <if test="outsideCar != null  and outsideCar != ''">#{outsideCar},</if>
@@ -72,8 +80,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="driverName != null  and driverName != ''">#{driverName},</if>
             <if test="driverTelephone != null  and driverTelephone != ''">#{driverTelephone},</if>
             <if test="driverIdentityCard != null  and driverIdentityCard != ''">#{driverIdentityCard},</if>
+            <if test="highSpeedFee != null ">#{highSpeedFee},</if>
+            <if test="parkingFee != null ">#{parkingFee},</if>
+            <if test="etcFee != null ">#{etcFee},</if>
+            <if test="fuelFee != null ">#{fuelFee},</if>
+            <if test="billFee != null ">#{billFee},</if>
             <if test="remark != null  and remark != ''">#{remark},</if>
-            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
@@ -91,8 +104,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="driverName != null  and driverName != ''">driver_name = #{driverName},</if>
             <if test="driverTelephone != null  and driverTelephone != ''">driver_telephone = #{driverTelephone},</if>
             <if test="driverIdentityCard != null  and driverIdentityCard != ''">driver_identity_card = #{driverIdentityCard},</if>
+            <if test="highSpeedFee != null ">high_speed_fee = #{highSpeedFee},</if>
+            <if test="parkingFee != null ">parking_fee = #{parkingFee},</if>
+            <if test="etcFee != null ">etc_fee = #{etcFee},</if>
+            <if test="fuelFee != null ">fuel_fee = #{fuelFee},</if>
+            <if test="billFee != null ">bill_fee = #{billFee},</if>
             <if test="remark != null  and remark != ''">remark = #{remark},</if>
-            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
             <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
@@ -103,23 +121,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <delete id="deleteTOrderVehicleDriverById">
         update t_order_vehicle_driver
-        SET del_flag=2 and update_by=#{updateBy}
+        SET del_flag=2 , update_by=#{updateBy} , update_time=now()
         where id = #{id}
-    </delete>
-
-    <delete id="deleteTOrderVehicleDriverByOrderId">
-        update t_order_vehicle_driver
-        SET del_flag=2 and update_by=#{updateBy}
-        where order_id = #{orderId} and del_flag=0
     </delete>
 
     <delete id="deleteTOrderVehicleDriverByIds">
         update t_order_vehicle_driver
-        SET del_flag=2 and update_by=#{updateBy}
+        SET del_flag=2 , update_by=#{updateBy} , update_time=now()
         where id in
         <foreach item="id" collection="ids" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-    
+
+    <delete id="deleteTOrderVehicleDriverByOrderId">
+        update t_order_vehicle_driver
+        SET del_flag=2 , update_by=#{updateBy} , update_time=now()
+        where order_id = #{orderId} and del_flag=0
+    </delete>
 </mapper>

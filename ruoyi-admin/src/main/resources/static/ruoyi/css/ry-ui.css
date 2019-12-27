@@ -1013,4 +1013,20 @@ label {
 	padding:3px;
 	border: 1px solid #e5e6e7;
 	border-radius: 1px;;
+	max-width: 130px;
+	text-align: center;
+}
+.tr-copy td .fee{
+	width:80px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none !important;
+	margin: 0;
+}
+.orderVehicleDriver_table tr td{padding:5px;border: 1px solid #e5e6e7;
+	border-radius: 1px;}
+
+.select-list .orderSearchForm{
+	width:140px;
 }
